@@ -28,9 +28,14 @@ namespace Sundial.Config
     /// </summary>
     public class Configuration
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Configuration"/> class.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         public Configuration(string[] args)
         {
             long TempNumberIterations = 0;
+            string TempOutputDirectory = "";
             if (args.Length > 0)
             {
                 long.TryParse(args[0], out TempNumberIterations);
@@ -39,8 +44,19 @@ namespace Sundial.Config
             else
             {
                 Console.WriteLine("Number of iterations:");
-                NumberIterations = int.Parse(Console.ReadLine());
+                TempNumberIterations = int.Parse(Console.ReadLine());
             }
+            if (args.Length > 1)
+            {
+                TempOutputDirectory = args[1];
+            }
+            else
+            {
+                Console.WriteLine("Output directory:");
+                TempOutputDirectory = Console.ReadLine();
+            }
+            this.NumberIterations = TempNumberIterations;
+            this.OutputDirectory = TempOutputDirectory;
         }
 
         /// <summary>

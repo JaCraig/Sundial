@@ -19,46 +19,47 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
+using Sundial.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Sundial.Core
+namespace ExampleTasks
 {
     /// <summary>
-    /// Data results
+    /// Example task 1
     /// </summary>
-    public class Result
+    public class ExampleTask1 : ITimedTask
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Result"/> class.
-        /// </summary>
-        /// <param name="times">The times.</param>
-        /// <param name="name">The name.</param>
-        public Result(IEnumerable<long> times, string name)
-        {
-            this.Times = times ?? new List<long>();
-            this.Name = string.IsNullOrEmpty(name) ? "" : name;
-        }
-
         /// <summary>
         /// Gets the name.
         /// </summary>
-        /// <value>The name.</value>
-        public string Name { get; private set; }
+        /// <value>
+        /// The name.
+        /// </value>
+        public string Name { get { return "Example1"; } }
 
         /// <summary>
-        /// Gets the times.
+        /// Runs this instance.
         /// </summary>
-        /// <value>The times.</value>
-        public IEnumerable<long> Times { get; private set; }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
-        public override string ToString()
+        public void Run()
         {
-            return Name + ": " + Times.Average();
+            System.Random Rand = new Random();
+            int[] Temp = new int[10000];
+            for (int x = 0; x < Temp.Length; ++x)
+            {
+                Temp[x] = Rand.Next();
+            }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
         }
     }
 }

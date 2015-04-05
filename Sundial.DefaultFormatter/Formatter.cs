@@ -19,46 +19,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
+using Sundial.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Utilities.DataTypes;
+using Utilities.IO;
 
-namespace Sundial.Core
+namespace Sundial.DefaultFormatter
 {
     /// <summary>
-    /// Data results
+    /// Default formatter
     /// </summary>
-    public class Result
+    public class Formatter : IDataFormatter
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Result"/> class.
-        /// </summary>
-        /// <param name="times">The times.</param>
-        /// <param name="name">The name.</param>
-        public Result(IEnumerable<long> times, string name)
-        {
-            this.Times = times ?? new List<long>();
-            this.Name = string.IsNullOrEmpty(name) ? "" : name;
-        }
-
         /// <summary>
         /// Gets the name.
         /// </summary>
-        /// <value>The name.</value>
-        public string Name { get; private set; }
+        /// <value>
+        /// The name.
+        /// </value>
+        public string Name { get { return "Default formatter"; } }
 
         /// <summary>
-        /// Gets the times.
+        /// Formats the specified results.
         /// </summary>
-        /// <value>The times.</value>
-        public IEnumerable<long> Times { get; private set; }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
-        public override string ToString()
+        /// <param name="Results">The results.</param>
+        /// <param name="OutputDirectory">The output directory.</param>
+        public void Format(IEnumerable<Core.Result> Results, string OutputDirectory)
         {
-            return Name + ": " + Times.Average();
+            new FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.txt"))
+                        .Write(Results.ForEach(x => x.Name + ": " + x.Times.Average() + "ms")
+                                      .ToString(x => x, "\n")
+                              );
         }
     }
 }
