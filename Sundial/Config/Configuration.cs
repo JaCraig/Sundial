@@ -20,6 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
 using System;
+using Utilities.Configuration;
+using Utilities.Configuration.Manager.Default;
 
 namespace Sundial.Config
 {
@@ -41,6 +43,11 @@ namespace Sundial.Config
                 long.TryParse(args[0], out TempNumberIterations);
                 NumberIterations = TempNumberIterations;
             }
+            else if (!string.IsNullOrEmpty(ConfigurationManager.Get<SystemConfig>().AppSettings["NumberOfIterations"]))
+            {
+                long.TryParse(ConfigurationManager.Get<SystemConfig>().AppSettings["NumberOfIterations"], out TempNumberIterations);
+                NumberIterations = TempNumberIterations;
+            }
             else
             {
                 Console.WriteLine("Number of iterations:");
@@ -49,6 +56,10 @@ namespace Sundial.Config
             if (args.Length > 1)
             {
                 TempOutputDirectory = args[1];
+            }
+            else if (!string.IsNullOrEmpty(ConfigurationManager.Get<SystemConfig>().AppSettings["OutputDirectory"]))
+            {
+                TempOutputDirectory = ConfigurationManager.Get<SystemConfig>().AppSettings["OutputDirectory"];
             }
             else
             {

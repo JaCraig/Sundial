@@ -20,13 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
 using Sundial.Core.Interfaces;
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using Utilities.DataTypes;
-using Utilities.IO;
 
 namespace Sundial.DefaultFormatter
 {
@@ -38,9 +36,7 @@ namespace Sundial.DefaultFormatter
         /// <summary>
         /// Gets the name.
         /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
+        /// <value>The name.</value>
         public string Name { get { return "Default formatter"; } }
 
         /// <summary>
@@ -50,10 +46,18 @@ namespace Sundial.DefaultFormatter
         /// <param name="OutputDirectory">The output directory.</param>
         public void Format(IEnumerable<Core.Result> Results, string OutputDirectory)
         {
-            new FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.txt"))
-                        .Write(Results.ForEach(x => x.Name + ": " + x.Times.Average() + "ms")
-                                      .ToString(x => x, "\n")
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "Sundial.DefaultFormatter.Results.html";
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string result = reader.ReadToEnd();
+                new Utilities.IO.FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.html"))
+                        .Write(string.Format(result, Results.ForEach(x => x.Name + ": " + x.Times.Average() + "ms")
+                                      .ToString(x => x, "<br />"))
                               );
+            }
         }
     }
 }
