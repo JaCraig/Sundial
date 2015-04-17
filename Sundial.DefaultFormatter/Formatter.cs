@@ -50,13 +50,15 @@ namespace Sundial.DefaultFormatter
             var resourceName = "Sundial.DefaultFormatter.Results.html";
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
             {
-                string result = reader.ReadToEnd();
-                new Utilities.IO.FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.html"))
-                        .Write(string.Format(result, Results.ForEach(x => x.Name + ": " + x.Times.Average() + "ms")
-                                      .ToString(x => x, "<br />"))
-                              );
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string result = reader.ReadToEnd();
+                    new Utilities.IO.FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.html"))
+                            .Write(string.Format(result, Results.ForEach(x => x.Name + ": " + x.Times.Average() + "ms")
+                                          .ToString(x => x, "<br />"))
+                                  );
+                }
             }
         }
     }

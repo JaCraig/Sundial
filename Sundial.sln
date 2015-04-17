@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleTasks", "ExampleTask
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sundial.DefaultFormatter", "Sundial.DefaultFormatter\Sundial.DefaultFormatter.csproj", "{23486D9E-B92D-4F26-BAF5-8E81FEAD10EE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0C9E6AD6-B0E1-4153-964A-D759C91023D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sundial.Core.Tests", "Sundial.Core.Tests\Sundial.Core.Tests.csproj", "{6092C95C-E857-4364-88A1-A2C148C4725F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sundial.DefaultFormatter.Tests", "Sundial.DefaultFormatter.Tests\Sundial.DefaultFormatter.Tests.csproj", "{21CA48FC-2679-4F98-BC73-BC54F79E4580}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,11 +41,21 @@ Global
 		{23486D9E-B92D-4F26-BAF5-8E81FEAD10EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23486D9E-B92D-4F26-BAF5-8E81FEAD10EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23486D9E-B92D-4F26-BAF5-8E81FEAD10EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6092C95C-E857-4364-88A1-A2C148C4725F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6092C95C-E857-4364-88A1-A2C148C4725F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6092C95C-E857-4364-88A1-A2C148C4725F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6092C95C-E857-4364-88A1-A2C148C4725F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21CA48FC-2679-4F98-BC73-BC54F79E4580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21CA48FC-2679-4F98-BC73-BC54F79E4580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21CA48FC-2679-4F98-BC73-BC54F79E4580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21CA48FC-2679-4F98-BC73-BC54F79E4580}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B4B57A89-AD66-4703-BBE5-043E4B97ED9F} = {78CA60AE-E799-40E1-9D1B-ABB230A158BD}
+		{6092C95C-E857-4364-88A1-A2C148C4725F} = {0C9E6AD6-B0E1-4153-964A-D759C91023D6}
+		{21CA48FC-2679-4F98-BC73-BC54F79E4580} = {0C9E6AD6-B0E1-4153-964A-D759C91023D6}
 	EndGlobalSection
 EndGlobal
