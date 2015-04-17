@@ -21,10 +21,9 @@ THE SOFTWARE.*/
 
 using Sundial.Core.Interfaces;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using Utilities.DataTypes;
+using Utilities.IO;
 
 namespace Sundial.DefaultFormatter
 {
@@ -46,20 +45,11 @@ namespace Sundial.DefaultFormatter
         /// <param name="OutputDirectory">The output directory.</param>
         public void Format(IEnumerable<Core.Result> Results, string OutputDirectory)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Sundial.DefaultFormatter.Results.html";
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string result = reader.ReadToEnd();
-                    new Utilities.IO.FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.html"))
-                            .Write(string.Format(result, Results.ForEach(x => x.Name + ": " + x.Times.Average() + "ms")
-                                          .ToString(x => x, "<br />"))
-                                  );
-                }
-            }
+            string Result = new FileInfo("resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Results.html").Read();
+            new FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.html"))
+                .Write(string.Format(Result, Results.ForEach(x => x.Name + ": " + x.Times.Average() + "ms")
+                             .ToString(x => x, "<br />"))
+                      );
         }
     }
 }
