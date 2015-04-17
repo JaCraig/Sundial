@@ -66,8 +66,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Utilities.Configuration">
-      <HintPath>..\packages\CraigsUtilityLibrary-Configuration.4.0.243-beta\lib\net40\Utilities.Configuration.dll</HintPath>
+    <Reference Include="Utilities.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=fb325ba51131afa8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CraigsUtilityLibrary-Configuration.4.0.252-beta\lib\net40\Utilities.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Utilities.DataTypes, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2df25aefe5d08d5d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
