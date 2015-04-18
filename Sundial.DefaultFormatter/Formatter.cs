@@ -46,10 +46,18 @@ namespace Sundial.DefaultFormatter
         public void Format(IEnumerable<Core.Result> Results, string OutputDirectory)
         {
             string Result = new FileInfo("resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Results.html").Read();
+            int Count = 0;
+            string FiftyPercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.5m).ToString() + "]", ",");
+            Count = 0;
+            string SeventyFivePercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.75m).ToString() + "]", ",");
+            Count = 0;
+            string NintyPercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.9m).ToString() + "]", ",");
+            Count = 0;
+            string NintyFivePercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.95m).ToString() + "]", ",");
+            Count = 0;
+            string Ticks = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x.Name + "\"]", ",");
             new FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.html"))
-                .Write(string.Format(Result, Results.ForEach(x => x.Name + ": " + x.Times.Average() + "ms")
-                             .ToString(x => x, "<br />"))
-                      );
+                .Write(string.Format(Result, FiftyPercentile, SeventyFivePercentile, NintyPercentile, NintyFivePercentile, Ticks));
             Dictionary<string, string> Scripts = new Dictionary<string, string>();
             Scripts.Add("excanvas.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.excanvas.min.js");
             Scripts.Add("jquery-1.11.2.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.jquery-1.11.2.min.js");

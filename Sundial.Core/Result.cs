@@ -53,6 +53,17 @@ namespace Sundial.Core
         public IEnumerable<long> Times { get; private set; }
 
         /// <summary>
+        /// Gets the value at a specific percentile
+        /// </summary>
+        /// <param name="Percentage">The percentage.</param>
+        /// <returns>The value at a specific percentile</returns>
+        public long Percentile(decimal Percentage)
+        {
+            int PercentileIndex = (int)(Times.Count() * Percentage);
+            return Times.OrderBy(x => x).ElementAt(PercentileIndex);
+        }
+
+        /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
