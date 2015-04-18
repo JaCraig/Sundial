@@ -1,6 +1,6 @@
 <html>
 <head>
-	<!--[if lte IE 8]><script type="text/javascript" src="http://wmcentral/Apps/Scripts/flot/excanvas.min.js"></script><![endif]-->
+	<!--[if lte IE 8]><script type="text/javascript" src="./Apps/Scripts/flot/excanvas.min.js"></script><![endif]-->
 </head>
 <body>
 	<h2>Average Times</h2>
@@ -8,22 +8,59 @@
 </body>
 	<script type="text/javascript" src="./Scripts/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript" src="./Scripts/jquery.flot.min.js"></script>
-	<script type="text/javascript" src="./Scripts/jquery.flot.categories.min.js"></script>
 	<script type="text/javascript" src="./Scripts/jquery.flot.axislabels.js"></script>
 	<script type="text/javascript">
-		var AverageData=[ ["Item1", 250],["Item1", 200],["Item1", 150],["Item2", 150],["Item3", 350] ];
-
-		$.plot("#averageHolder", [ AverageData ], {
-			series: {
-				bars: {
-					show: true,
-					barWidth: 0.6,
-					align: "center"
+		var AverageData=[ [0, 250],[1, 150],[2, 350] ];
+		var SeventyFivePercentData=[[0, 200],[1, 100],[2, 300]];
+		var NintyPercentData=[[0, 150],[1, 50],[2, 250]];
+		var NintyFivePercentData=[[0, 100],[1, 25],[2, 200]];
+		
+		var dataset=[
+			{
+				label: "50%",
+				data: AverageData,
+				color: "#0000DC",
+				bars:{
+					show:true,
+					align:"center",
+					barWidth:0.8
 				}
 			},
+			{
+				label: "75%",
+				data: SeventyFivePercentData,
+				color: "#00DC00",
+				bars:{
+					show:true,
+					align:"center",
+					barWidth:0.8
+				}
+			},
+			{
+				label: "90%",
+				data: NintyPercentData,
+				color: "#DC0000",
+				bars:{
+					show:true,
+					align:"center",
+					barWidth:0.8
+				}
+			},
+			{
+				label: "95%",
+				data: NintyFivePercentData,
+				color: "#0000AA",
+				bars:{
+					show:true,
+					align:"center",
+					barWidth:0.8
+				}
+			}
+		];
+
+		$.plot("#averageHolder", dataset, {
 			xaxis: {
-				mode: "categories",
-				tickLength: 0,
+				ticks: [[0, "Task1"], [1, "Task2"], [2, "Task3"]],
 				axisLabel: "Tasks",
 				axisLabelUseCanvas: true
 			},

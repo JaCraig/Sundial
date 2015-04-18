@@ -50,6 +50,16 @@ namespace Sundial.DefaultFormatter
                 .Write(string.Format(Result, Results.ForEach(x => x.Name + ": " + x.Times.Average() + "ms")
                              .ToString(x => x, "<br />"))
                       );
+            Dictionary<string, string> Scripts = new Dictionary<string, string>();
+            Scripts.Add("excanvas.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.excanvas.min.js");
+            Scripts.Add("jquery-1.11.2.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.jquery-1.11.2.min.js");
+            Scripts.Add("jquery.flot.axislabels.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.jquery.flot.axislabels.js");
+            Scripts.Add("jquery.flot.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.jquery.flot.min.js");
+            Scripts.ForEach(x =>
+            {
+                string Data = new FileInfo(x.Value);
+                new FileInfo(System.IO.Path.Combine(OutputDirectory + "\\Scripts", x.Key)).Write(Data);
+            });
         }
     }
 }
