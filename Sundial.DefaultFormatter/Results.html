@@ -2,11 +2,38 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <!--[if lte IE 8]><script type="text/javascript" src="./Scripts/flot/excanvas.min.js"></script><![endif]-->
+    <!--[if lte IE 8]><script type="text/javascript" src="./Scripts/excanvas.min.js"></script><![endif]-->
+    <link href="./Styles/Layout.css" rel="stylesheet" />
 </head>
 <body>
-    <h2>Average Times</h2>
-    <div id="averageHolder" style="width:100%;height:300px">&nbsp;</div>
+    <h1>Sundial</h1>
+    <div class="dataHolder">
+        <h2>Test Set Name</h2>
+        <p>ASFIUHAGUIHAOFA HAUISHFASUI HFASUIHAS HASUI HFASUIHFASFAS UIHFAS FHUIAS UI asdfads</p>
+        <p>ASFIUHAGUIHAOFA HAUISHFASUI HFASUIHAS HASUI HFASUIHFASFAS UIHFAS FHUIAS UI asdfads</p>
+        <p>ASFIUHAGUIHAOFA HAUISHFASUI HFASUIHAS HASUI HFASUIHFASFAS UIHFAS FHUIAS UI asdfads</p>
+        <h2>Average Times</h2>
+        <div id="averageHolder" style="width:100%;height:300px">&nbsp;</div>
+        <h2>Details</h2>
+        <table class="detailsHolder">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Average</th>
+                    <th>Standard Deviation</th>
+                    <th>Max</th>
+                    <th>Min</th>
+                    <th>Calls per Second</th>
+                </tr>
+            </thead>
+            <tbody>
+                {5}
+            </tbody>
+        </table>
+    </div>
+    <div class="footer">
+        Generated using <a href="#">Sundial</a> on 1/1/0001
+    </div>
     <script type="text/javascript" src="./Scripts/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="./Scripts/jquery.flot.min.js"></script>
     <script type="text/javascript" src="./Scripts/jquery.flot.axislabels.js"></script>
