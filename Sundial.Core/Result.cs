@@ -21,6 +21,7 @@ THE SOFTWARE.*/
 
 using System.Collections.Generic;
 using System.Linq;
+using Utilities.DataTypes;
 
 namespace Sundial.Core
 {
@@ -36,7 +37,7 @@ namespace Sundial.Core
         /// <param name="name">The name.</param>
         public Result(IEnumerable<long> times, string name)
         {
-            this.Times = times ?? new List<long>();
+            this.Times = times.ToList(x => (double)x) ?? new List<double>();
             this.Name = string.IsNullOrEmpty(name) ? "" : name;
         }
 
@@ -50,14 +51,14 @@ namespace Sundial.Core
         /// Gets the times.
         /// </summary>
         /// <value>The times.</value>
-        public IEnumerable<long> Times { get; private set; }
+        public IEnumerable<double> Times { get; private set; }
 
         /// <summary>
         /// Gets the value at a specific percentile
         /// </summary>
         /// <param name="Percentage">The percentage.</param>
         /// <returns>The value at a specific percentile</returns>
-        public long Percentile(decimal Percentage)
+        public double Percentile(decimal Percentage)
         {
             int PercentileIndex = (int)(Times.Count() * Percentage);
             return Times.OrderBy(x => x).ElementAt(PercentileIndex);

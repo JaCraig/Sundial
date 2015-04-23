@@ -21,8 +21,10 @@
                     <th>Task</th>
                     <th>Average</th>
                     <th>Standard Deviation</th>
-                    <th>Max</th>
                     <th>Min</th>
+                    <th>90%</th>
+                    <th>99%</th>
+                    <th>Max</th>
                     <th>Calls per Second</th>
                 </tr>
             </thead>
@@ -37,6 +39,7 @@
     <script type="text/javascript" src="./Scripts/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="./Scripts/jquery.flot.min.js"></script>
     <script type="text/javascript" src="./Scripts/jquery.flot.axislabels.js"></script>
+    <script type="text/javascript" src="./Scripts/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
         var AverageData = [{0}];
         var SeventyFivePercentData = [{1}];
@@ -44,19 +47,19 @@
         var NintyFivePercentData = [{3}];
 
         var dataset = [
-			{{
-			    label: "50%",
-			    data: AverageData,
-			    color: "#0000DC",
-			    bars: {{
-			        show: true,
-			        align: "center",
-			        barWidth: 0.8
-			    }}
+            {{
+                label: "95%",
+                data: NintyFivePercentData,
+                color: "#FF6600",
+                bars: {{
+                    show: true,
+                    align: "center",
+                    barWidth: 0.8
+                }}
         }},
         {{
-                label: "75%",
-                data: SeventyFivePercentData,
+                label: "90%",
+                data: NintyPercentData,
                 color: "#00DC00",
                 bars: {{
                         show: true,
@@ -65,8 +68,8 @@
                 }}
         }},
         {{
-        label: "90%",
-            data: NintyPercentData,
+        label: "75%",
+            data: SeventyFivePercentData,
         color: "#DC0000",
         bars: {{
                 show: true,
@@ -75,9 +78,9 @@
         }}
         }},
         {{
-                label: "95%",
-                data: NintyFivePercentData,
-                color: "#0000AA",
+                label: "50%",
+                data: AverageData,
+                color: "#0000DC",
                 bars: {{
                         show: true,
                         align: "center",
@@ -97,6 +100,7 @@
                     axisLabelUseCanvas: true
             }}
         }});
+        $(document).ready(function(){{$(".detailsHolder").tablesorter(); }});
     </script>
 </body>
 </html>
