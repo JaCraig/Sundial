@@ -14,6 +14,10 @@
         <p>ASFIUHAGUIHAOFA HAUISHFASUI HFASUIHAS HASUI HFASUIHFASFAS UIHFAS FHUIAS UI asdfads</p>
         <h2>Average Times</h2>
         <div id="averageHolder" style="width:100%;height:300px">&nbsp;</div>
+        <h2>CPU Usage</h2>
+        <div id="cpuHolder" style="width:100%;height:300px">&nbsp;</div>
+        <h2>Memory Usage</h2>
+        <div id="memoryHolder" style="width:100%;height:300px">&nbsp;</div>
         <h2>Details</h2>
         <table class="detailsHolder">
             <thead>
@@ -41,6 +45,8 @@
     <script type="text/javascript" src="./Scripts/jquery.flot.axislabels.js"></script>
     <script type="text/javascript" src="./Scripts/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
+        var cpuDataSet = [{6}];
+        var memoryDataSet = [{7}];
         var AverageData = [{0}];
         var SeventyFivePercentData = [{1}];
         var NintyPercentData = [{2}];
@@ -97,6 +103,26 @@
             }},
             yaxis: {{
                     axisLabel: "ms",
+                    axisLabelUseCanvas: true
+            }}
+        }});
+        $.plot("#cpuHolder", cpuDataSet, {{
+            xaxis: {{
+                axisLabel: "Time",
+                axisLabelUseCanvas: true
+            }},
+            yaxis: {{
+                    axisLabel: "CPU %",
+                    axisLabelUseCanvas: true
+            }}
+        }});
+        $.plot("#memoryHolder", memoryDataSet, {{
+            xaxis: {{
+                axisLabel: "Time",
+                axisLabelUseCanvas: true
+            }},
+            yaxis: {{
+                    axisLabel: "MB",
                     axisLabelUseCanvas: true
             }}
         }});

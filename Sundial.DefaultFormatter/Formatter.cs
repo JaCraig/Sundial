@@ -60,6 +60,8 @@ namespace Sundial.DefaultFormatter
             string NintyFivePercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.95m).ToString() + "]", ",");
             Count = 0;
             string Ticks = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x.Name + "\"]", ",");
+            string CPUData = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x.Name + "\"]", ",");
+            string MemoryData = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x.Name + "\"]", ",");
             string Rows = Results.ToString(x => "<tr><td>" + x.Name + "</td><td>" + x.Times.Average().ToString("0.##") + "ms</td><td>" + x.Times.StandardDeviation().ToString("0.##") + "ms</td><td>" + x.Times.Min().ToString("0.##") + "ms</td><td>" + x.Percentile(0.90m).ToString("0.##") + "ms</td><td>" + x.Percentile(0.99m).ToString("0.##") + "ms</td><td>" + x.Times.Max().ToString("0.##") + "ms</td><td>" + (1000.0d / x.Times.Average()).ToString("0.##") + "</td></tr>", "");
             new FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.html"))
                 .Write(string.Format(Result,
@@ -68,7 +70,9 @@ namespace Sundial.DefaultFormatter
                                         NintyPercentile,
                                         NintyFivePercentile,
                                         Ticks,
-                                        Rows));
+                                        Rows,
+                                        CPUData,
+                                        MemoryData));
             Dictionary<string, string> Scripts = new Dictionary<string, string>();
             Scripts.Add("excanvas.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.excanvas.min.js");
             Scripts.Add("jquery-1.11.2.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.jquery-1.11.2.min.js");
