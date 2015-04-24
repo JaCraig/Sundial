@@ -48,7 +48,7 @@ namespace Sundial.DefaultFormatter
         /// <param name="OutputDirectory">The output directory.</param>
         public void Format(IEnumerable<Core.Result> Results, string OutputDirectory)
         {
-            Results = Results.OrderByDescending(x => x.Percentile(0.95m));
+            Results = Results.OrderByDescending(x => x.Percentile(0.95m).Time);
             string Result = new FileInfo("resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Results.html").Read();
             int Count = 0;
             string FiftyPercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.5m).ToString() + "]", ",");
@@ -60,7 +60,7 @@ namespace Sundial.DefaultFormatter
             string NintyFivePercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.95m).ToString() + "]", ",");
             Count = 0;
             string Ticks = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x.Name + "\"]", ",");
-            string CPUData = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x.Name + "\"]", ",");
+            string CPUData = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x + "\"]", ",");
             string MemoryData = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x.Name + "\"]", ",");
             string Rows = Results.ToString(x => "<tr><td>" + x.Name + "</td><td>" + x.Times.Average().ToString("0.##") + "ms</td><td>" + x.Times.StandardDeviation().ToString("0.##") + "ms</td><td>" + x.Times.Min().ToString("0.##") + "ms</td><td>" + x.Percentile(0.90m).ToString("0.##") + "ms</td><td>" + x.Percentile(0.99m).ToString("0.##") + "ms</td><td>" + x.Times.Max().ToString("0.##") + "ms</td><td>" + (1000.0d / x.Times.Average()).ToString("0.##") + "</td></tr>", "");
             new FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.html"))

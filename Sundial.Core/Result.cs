@@ -22,6 +22,8 @@ THE SOFTWARE.*/
 using System.Collections.Generic;
 using System.Linq;
 using Utilities.DataTypes;
+using Utilities.Profiler.Manager.Default;
+using Utilities.Profiler.Manager.Interfaces;
 
 namespace Sundial.Core
 {
@@ -35,9 +37,9 @@ namespace Sundial.Core
         /// </summary>
         /// <param name="times">The times.</param>
         /// <param name="name">The name.</param>
-        public Result(IEnumerable<long> times, string name)
+        public Result(IEnumerable<IResultEntry> times, string name)
         {
-            this.Times = times.ToList(x => (double)x) ?? new List<double>();
+            this.Times = times.ToList(x => x) ?? new List<IResultEntry>();
             this.Name = string.IsNullOrEmpty(name) ? "" : name;
         }
 
@@ -51,17 +53,17 @@ namespace Sundial.Core
         /// Gets the times.
         /// </summary>
         /// <value>The times.</value>
-        public IEnumerable<double> Times { get; private set; }
+        public IEnumerable<IResultEntry> Times { get; private set; }
 
         /// <summary>
         /// Gets the value at a specific percentile
         /// </summary>
         /// <param name="Percentage">The percentage.</param>
         /// <returns>The value at a specific percentile</returns>
-        public double Percentile(decimal Percentage)
+        public IResultEntry Percentile(decimal Percentage)
         {
             int PercentileIndex = (int)(Times.Count() * Percentage);
-            return Times.OrderBy(x => x).ElementAt(PercentileIndex);
+            return Times.OrderBy(x => x.Time).ElementAt(PercentileIndex);
         }
 
         /// <summary>
@@ -70,7 +72,7 @@ namespace Sundial.Core
         /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
         public override string ToString()
         {
-            return Name + ": " + Times.Average();
+            return Name + ": " + Times.Average(x => x.Time);
         }
     }
 }
