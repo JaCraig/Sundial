@@ -70,16 +70,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Utilities.DataTypes, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2df25aefe5d08d5d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CraigsUtilityLibrary-DataTypes.4.0.254-beta\lib\net40\Utilities.DataTypes.dll</HintPath>
+      <HintPath>..\packages\CraigsUtilityLibrary-DataTypes.4.0.255-beta\lib\net40\Utilities.DataTypes.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Utilities.IO, Version=4.0.0.0, Culture=neutral, PublicKeyToken=4307908d64d1497c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CraigsUtilityLibrary-IO.4.0.254-beta\lib\net40\Utilities.IO.dll</HintPath>
+      <HintPath>..\packages\CraigsUtilityLibrary-IO.4.0.255-beta\lib\net40\Utilities.IO.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Utilities.IoC, Version=4.0.0.0, Culture=neutral, PublicKeyToken=4a6f81c4d5621773, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CraigsUtilityLibrary-IoC.4.0.254-beta\lib\net40\Utilities.IoC.dll</HintPath>
+      <HintPath>..\packages\CraigsUtilityLibrary-IoC.4.0.255-beta\lib\net40\Utilities.IoC.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
