@@ -81,8 +81,9 @@
       <HintPath>..\packages\CraigsUtilityLibrary-IoC.4.0.255-beta\lib\net40\Utilities.IoC.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Utilities.Profiler">
-      <HintPath>..\packages\CraigsUtilityLibrary-Profiler.4.0.254-beta\lib\net40\Utilities.Profiler.dll</HintPath>
+    <Reference Include="Utilities.Profiler, Version=4.0.0.0, Culture=neutral, PublicKeyToken=ae636060beb69b12, processorArchitecture=MSIL">
+      <HintPath>..\packages\CraigsUtilityLibrary-Profiler.4.0.255-beta\lib\net40\Utilities.Profiler.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

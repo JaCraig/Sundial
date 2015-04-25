@@ -34,7 +34,7 @@ namespace Sundial
                     }
                 }
                 var Result = Manager.StopProfiling(false);
-                IEnumerable<Result> Results = Result.Children.ForEach(x => new Result(x.Value.Times, x.Key));
+                IEnumerable<Result> Results = Result.Children.ForEach(x => new Result(x.Value.Entries, x.Key));
                 Formatters.ForEach(x => x.Format(Results, Config.OutputDirectory));
             }
         }
