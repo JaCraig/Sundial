@@ -20,12 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
 using Sundial.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Utilities.DataTypes;
-
-using Utilities.DataTypes;
-
 using Utilities.IO;
 
 namespace Sundial.DefaultFormatter
@@ -51,18 +50,36 @@ namespace Sundial.DefaultFormatter
             Results = Results.OrderByDescending(x => x.Percentile(0.95m).Time);
             string Result = new FileInfo("resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Results.html").Read();
             int Count = 0;
-            string FiftyPercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.5m).ToString() + "]", ",");
+            string FiftyPercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.5m).Time.ToString() + "]", ",");
             Count = 0;
-            string SeventyFivePercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.75m).ToString() + "]", ",");
+            string SeventyFivePercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.75m).Time.ToString() + "]", ",");
             Count = 0;
-            string NintyPercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.9m).ToString() + "]", ",");
+            string NintyPercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.9m).Time.ToString() + "]", ",");
             Count = 0;
-            string NintyFivePercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.95m).ToString() + "]", ",");
+            string NintyFivePercentile = Results.ToString(x => "[" + (++Count).ToString() + "," + x.Percentile(0.95m).Time.ToString() + "]", ",");
             Count = 0;
             string Ticks = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x.Name + "\"]", ",");
-            string CPUData = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x + "\"]", ",");
-            string MemoryData = Results.ToString(x => "[" + (++Count).ToString() + ",\"" + x.Name + "\"]", ",");
-            string Rows = Results.ToString(x => "<tr><td>" + x.Name + "</td><td>" + x.Times.Average(y => y.Time).ToString("0.##") + "ms</td><td>" + x.Times.StandardDeviation().ToString("0.##") + "ms</td><td>" + x.Times.Min().ToString("0.##") + "ms</td><td>" + x.Percentile(0.90m).ToString("0.##") + "ms</td><td>" + x.Percentile(0.99m).ToString("0.##") + "ms</td><td>" + x.Times.Max().ToString("0.##") + "ms</td><td>" + (1000.0d / x.Times.Average()).ToString("0.##") + "</td></tr>", "");
+            string Description = GetDescription(Results);
+            string CPUData = Results.ToString(x =>
+            {
+                Count = 0;
+                string Data = @"{
+                label: '" + x.Name + @"',
+                data: [" + x.Times.ToString(y => "[" + (++Count).ToString() + "," + y.CPUUsage + "]", ",") + @"],
+                }";
+                return Data;
+            }, ",");
+
+            string MemoryData = Results.ToString(x =>
+            {
+                Count = 0;
+                string Data = @"{
+                label: '" + x.Name + @"',
+                data: [" + x.Times.ToString(y => "[" + (++Count).ToString() + "," + y.Memory + "]", ",") + @"],
+                }";
+                return Data;
+            }, ",");
+            string Rows = Results.ToString(x => "<tr><td>" + x.Name + "</td><td>" + x.Times.Average(y => y.Time).ToString("0.##") + "ms</td><td>" + x.Times.Select(y => (double)y.Time).StandardDeviation().ToString("0.##") + "ms</td><td>" + x.Times.Min(y => y.Time).ToString("0.##") + "ms</td><td>" + x.Percentile(0.90m).Time.ToString("0.##") + "ms</td><td>" + x.Percentile(0.99m).Time.ToString("0.##") + "ms</td><td>" + x.Times.Max(y => y.Time).ToString("0.##") + "ms</td><td>" + (1000.0d / x.Times.Average(y => y.Time)).ToString("0.##") + "</td></tr>", "");
             new FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.html"))
                 .Write(string.Format(Result,
                                         FiftyPercentile,
@@ -72,7 +89,8 @@ namespace Sundial.DefaultFormatter
                                         Ticks,
                                         Rows,
                                         CPUData,
-                                        MemoryData));
+                                        MemoryData,
+                                        Description));
             Dictionary<string, string> Scripts = new Dictionary<string, string>();
             Scripts.Add("excanvas.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.excanvas.min.js");
             Scripts.Add("jquery-1.11.2.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.jquery-1.11.2.min.js");
@@ -86,6 +104,30 @@ namespace Sundial.DefaultFormatter
             });
             Result = new FileInfo("resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Styles.Layout.css").Read();
             new FileInfo(System.IO.Path.Combine(OutputDirectory + "\\Styles", "Layout.css")).Write(Result);
+        }
+
+        /// <summary>
+        /// Gets the description.
+        /// </summary>
+        /// <param name="Results">The results.</param>
+        /// <returns>The description</returns>
+        private string GetDescription(IEnumerable<Core.Result> Results)
+        {
+            StringBuilder Builder = new StringBuilder();
+            var AverageResult = Results.First(x => Results.Min(y => y.Percentile(0.5m).Time) == x.Percentile(0.5m).Time);
+            var Min95Result = Results.First(x => Results.Min(y => y.Percentile(0.95m).Time) == x.Percentile(0.95m).Time);
+            Builder.AppendFormat("<p>The test results below were run on {0}. The following items were tested:</p><ul>{1}</ul><p>The results themselves are not 100% accurate as things such as garbage collection, background processes, etc. can effect the outcome. As such these should only be used as a guideline and more precise tools should be used to figure out performance issues. That said, the following points of interest were discovered:</p>", DateTime.Now.ToString("MMMM dd, yyyy HH:mm:ss tt"), Results.ToString(x => "<li>" + x.Name + "</li>", ""));
+            if (AverageResult.Name != Min95Result.Name)
+                Builder.AppendFormat("<p>\"{0}\" on average is faster but in the 95% instances, we see \"{1}\" showing better in the worst case scenarios.</p>", AverageResult.Name, Min95Result.Name);
+            else
+                Builder.AppendFormat("<p>\"{0}\" is consistantly the fastest item in the group.</p>", AverageResult.Name);
+            var MemoryUsageMin = Results.First(x => Results.Min(y => y.Times.Average(z => z.Memory)) == x.Times.Average(z => z.Memory));
+            var MemoryUsageLeastVariable = Results.First(x => Results.Min(y => y.Times.Select(z => (double)z.Memory).StandardDeviation()) == x.Times.Select(z => (double)z.Memory).StandardDeviation());
+            Builder.AppendFormat("<p>On average \"{0}\" used the least amount of memory throughout the test's lifecycle. Where as {1} had the least amount of variability in the memory usage. This however is not 100% accurate as garbage collection may kick in at odd times, memory leaks may have occurred that pushed other item's values higher, etc.</p>", MemoryUsageMin.Name, MemoryUsageLeastVariable.Name);
+            var CPUUsageMin = Results.First(x => Results.Min(y => y.Times.Average(z => z.CPUUsage)) == x.Times.Average(z => z.CPUUsage));
+            var CPUUsageLeastVariable = Results.First(x => Results.Min(y => y.Times.Select(z => (double)z.CPUUsage).StandardDeviation()) == x.Times.Select(z => (double)z.CPUUsage).StandardDeviation());
+            Builder.AppendFormat("<p>On average \"{0}\" was the least taxing on the CPU. Where as {1} had the least amount of variability. Once again, not 100% accurate due to the rate of sampling, etc.</p>", CPUUsageMin.Name, CPUUsageLeastVariable.Name);
+            return Builder.ToString();
         }
     }
 }
