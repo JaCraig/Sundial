@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>sundial.core</id>
+		<version>0.1.0-beta</version>
+		<title>Sundial Core Library</title>
+		<authors>James Craig</authors>
+		<owners>James Craig</owners>
+		<licenseUrl>https://github.com/JaCraig/Sundial/blob/master/LICENSE</licenseUrl>
+		<projectUrl>https://github.com/JaCraig/Sundial</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>This is the core library needed to create tasks for Sundial to run. Simply add this package, create a class that inherits from ITimedTask, and you're done coding. Then install Sundial via Chocolatey, open up a command window in the bin directory for this project, and type 'sundial'. The system will then run the tasks and give you a nicely formatted report.</description>
+		<summary>This is the core library needed to create tasks for Sundial to run.</summary>
+		<releaseNotes></releaseNotes>
+		<copyright>Copyright 2015</copyright>
+		<tags>sundial profiler core</tags>
+		<references>
+			<reference file="Sundial.Core.dll" />
+		</references>
+	</metadata>
+</package>
