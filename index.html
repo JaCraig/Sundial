@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Sundial by JaCraig</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Sundial</h1>
+      <h2 class="project-tagline">profiling made simple</h2>
+      <a href="https://github.com/JaCraig/Sundial" class="btn">View on GitHub</a>
+      <a href="https://github.com/JaCraig/Sundial/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/JaCraig/Sundial/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="sundial" class="anchor" href="#sundial" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sundial</h1>
+
+<p>Sundial is a simple application that can be used to profile code and gives a nice html output of the results.</p>
+
+<h2>
+<a id="what-does-it-profile" class="anchor" href="#what-does-it-profile" aria-hidden="true"><span class="octicon octicon-link"></span></a>What does it profile?</h2>
+
+<p>Currently it checks speed, CPU, and memory usage but I plan on opening it up a bit more so that other information can be added/removed depending on your needs.</p>
+
+<h2>
+<a id="how-do-i-set-it-up" class="anchor" href="#how-do-i-set-it-up" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I set it up?</h2>
+
+<p>Well I've uploaded a package to chocolatey but it appears that they're a bit backlogged at the moment. Haven't even received a message from them yet. But this should work:</p>
+
+<pre><code>choco install sundial -version 0.1.0
+</code></pre>
+
+<p>In theory anyway... From there you should have the app in your path (sundial.exe). Otherwise just download it here and build. Shouldn't take anything special.</p>
+
+<h2>
+<a id="ok-its-there-now-what" class="anchor" href="#ok-its-there-now-what" aria-hidden="true"><span class="octicon octicon-link"></span></a>OK, it's there... Now what?</h2>
+
+<p>Now you need to create your tasks that you want profiled. In order to do this, create a class library project and pull down the Sundial Core Library package via NuGet:</p>
+
+<pre><code>Install-Package sundial.core -Pre
+</code></pre>
+
+<p>Since this app is still in beta you're dealing with prerelease versions of stuff... At least for now. From there you just need to create a class that inherits from ITimedTask for each item that you want to time. So for instance:</p>
+
+<pre><code>/// &lt;summary&gt;
+/// Example task 1
+/// &lt;/summary&gt;
+public class ExampleTask1 : ITimedTask
+{
+    /// &lt;summary&gt;
+    /// Gets the name.
+    /// &lt;/summary&gt;
+    /// &lt;value&gt;
+    /// The name.
+    /// &lt;/value&gt;
+    public string Name { get { return "Example1"; } }
+
+    /// &lt;summary&gt;
+    /// Runs this instance.
+    /// &lt;/summary&gt;
+    public void Run()
+    {
+        System.Random Rand = new Random();
+        int[] Temp = new int[10000];
+        for (int x = 0; x &lt; Temp.Length; ++x)
+        {
+            Temp[x] = Rand.Next();
+        }
+    }
+
+    /// &lt;summary&gt;
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// &lt;/summary&gt;
+    public void Dispose()
+    {
+    }
+}
+</code></pre>
+
+<p>You'll notice that it inherits from IDisposable. The reason for this is so that you can do any necessary setup in the constructor and any teardown that is required in the Dispose function. Note that the constructor is only called once at the application's start up and the Dispose function is only called once as well when the application is shutting down. From there, just build the DLL.</p>
+
+<h2>
+<a id="how-do-i-run-this-thing" class="anchor" href="#how-do-i-run-this-thing" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I run this thing?</h2>
+
+<p>Go to the location of the class library that you built before and run the following:</p>
+
+<pre><code>sundial
+</code></pre>
+
+<p>That's it. It will then run your set of tasks and put the results in a directory called Results. Also note that the application, by default, runs each task a total of 10,000 times. So for long running tasks, you may wish to go into the app.config file for sundial.exe and modify the NumberOfIterations or OutputDirectory if you would like the results in a different directory. In the future I'll add command line arguments, but you know... Beta... Also, in case you've used the chocolatey installer, it will add the application here:</p>
+
+<pre><code>C:\ProgramData\chocolatey\lib\sundial
+</code></pre>
+
+<p>As I work on this a bit more, I'll add examples of the output, etc. And if you run into issues, have feature requests, etc. please post them here. And as I've said before, this is beta so don't be shocked if things change a bit as I work out how I want this thing to function.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/JaCraig/Sundial">Sundial</a> is maintained by <a href="https://github.com/JaCraig">JaCraig</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
