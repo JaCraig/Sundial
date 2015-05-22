@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sundial.Core.Tests", "Sundi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sundial.DefaultFormatter.Tests", "Sundial.DefaultFormatter.Tests\Sundial.DefaultFormatter.Tests.csproj", "{21CA48FC-2679-4F98-BC73-BC54F79E4580}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationExample", "SerializationExample\SerializationExample.csproj", "{859ACC89-A82D-4187-A9DB-56E82D0671EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{21CA48FC-2679-4F98-BC73-BC54F79E4580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21CA48FC-2679-4F98-BC73-BC54F79E4580}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21CA48FC-2679-4F98-BC73-BC54F79E4580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{859ACC89-A82D-4187-A9DB-56E82D0671EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{859ACC89-A82D-4187-A9DB-56E82D0671EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{859ACC89-A82D-4187-A9DB-56E82D0671EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{859ACC89-A82D-4187-A9DB-56E82D0671EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,5 +63,6 @@ Global
 		{B4B57A89-AD66-4703-BBE5-043E4B97ED9F} = {78CA60AE-E799-40E1-9D1B-ABB230A158BD}
 		{6092C95C-E857-4364-88A1-A2C148C4725F} = {0C9E6AD6-B0E1-4153-964A-D759C91023D6}
 		{21CA48FC-2679-4F98-BC73-BC54F79E4580} = {0C9E6AD6-B0E1-4153-964A-D759C91023D6}
+		{859ACC89-A82D-4187-A9DB-56E82D0671EE} = {78CA60AE-E799-40E1-9D1B-ABB230A158BD}
 	EndGlobalSection
 EndGlobal
