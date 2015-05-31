@@ -58,11 +58,13 @@ namespace Sundial.Core
         /// <summary>
         /// Gets the value at a specific percentile
         /// </summary>
-        /// <param name="Percentage">The percentage.</param>
-        /// <returns>The value at a specific percentile</returns>
-        public IResultEntry Percentile(decimal Percentage)
+        /// <param name="percentage">The percentage.</param>
+        /// <returns>
+        /// The value at a specific percentile
+        /// </returns>
+        public IResultEntry Percentile(decimal percentage)
         {
-            int PercentileIndex = (int)(Times.Count() * Percentage);
+            int PercentileIndex = (int)(Times.Count() * percentage);
             return Times.OrderBy(x => x.Time).ElementAt(PercentileIndex);
         }
 

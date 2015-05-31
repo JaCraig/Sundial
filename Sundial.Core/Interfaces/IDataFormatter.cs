@@ -37,8 +37,8 @@ namespace Sundial.Core.Interfaces
         /// <summary>
         /// Runs this instance.
         /// </summary>
-        /// <param name="Results">The results.</param>
-        /// <param name="OutputDirectory">The output directory.</param>
-        void Format(IEnumerable<Result> Results, string OutputDirectory);
+        /// <param name="results">The results.</param>
+        /// <param name="outputDirectory">The output directory.</param>
+        void Format(IEnumerable<Result> results, string outputDirectory);
     }
 }
