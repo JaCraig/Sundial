@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using SerializationExample.Objects;
-using Sundial.Core.Interfaces;
-
-/*
+﻿/*
 Copyright (c) 2015 <a href="http://www.gutgames.com">James Craig</a>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,6 +19,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
+using Newtonsoft.Json;
+using SerializationExample.Objects;
+using Sundial.Core.Attributes;
+using Sundial.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,22 +31,49 @@ using System.Threading.Tasks;
 
 namespace SerializationExample.Serializers
 {
+    /// <summary>
+    /// Json.Net Serializer
+    /// </summary>
+    [Series("Serialization")]
     public class JsonNetSerializer : ITimedTask
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonNetSerializer" /> class.
+        /// </summary>
         public JsonNetSerializer()
         {
         }
 
+        /// <summary>
+        /// Gets or sets the data.
+        /// </summary>
+        /// <value>
+        /// The data.
+        /// </value>
+        private TestObject Data { get { return Utilities.IoC.Manager.Bootstrapper.Resolve<TestObject>(); } }
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public string Name
         {
             get { return "JSON.Net Serialization"; }
         }
 
+        /// <summary>
+        /// Runs this instance.
+        /// </summary>
         public void Run()
         {
-            var Data = JsonConvert.SerializeObject(Constants.Object, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+            JsonConvert.SerializeObject(Data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
         }

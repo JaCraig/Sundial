@@ -45,30 +45,54 @@ namespace Sundial.DefaultFormatter
         /// </summary>
         /// <param name="Results">The results.</param>
         /// <param name="OutputDirectory">The output directory.</param>
-        public void Format(IEnumerable<Core.Result> Results, string OutputDirectory)
+        public void Format(ILookup<ISeries, Core.Result> Results, string OutputDirectory)
         {
-            Results = Results.OrderByDescending(x => x.Percentile(0.95m).Time);
             string Result = new FileInfo("resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Results.html").Read();
-            string FiftyPercentile = GetPercentile(Results, 0.5m);
-            string SeventyFivePercentile = GetPercentile(Results, 0.75m);
-            string NintyPercentile = GetPercentile(Results, 0.9m);
-            string NintyFivePercentile = GetPercentile(Results, 0.95m);
-            string Ticks = GetTimeTicks(Results);
-            string Description = GetDescription(Results);
-            string CPUData = GetCPUData(Results);
-            string MemoryData = GetMemoryData(Results);
-            string Rows = GetTableData(Results);
-            new FileInfo(System.IO.Path.Combine(OutputDirectory, "Result.html"))
+            foreach (var Grouping in Results)
+            {
+                var TempResults = Grouping.OrderByDescending(x => x.Percentile(0.95m).Time);
+                string FiftyPercentile = GetPercentile(TempResults, 0.5m);
+                string SeventyFivePercentile = GetPercentile(TempResults, 0.75m);
+                string NintyPercentile = GetPercentile(TempResults, 0.9m);
+                string NintyFivePercentile = GetPercentile(TempResults, 0.95m);
+                string Ticks = GetTimeTicks(TempResults);
+                string Description = GetDescription(TempResults);
+                string CPUData = GetCPUData(TempResults);
+                string MemoryData = GetMemoryData(TempResults);
+                string Rows = GetTableData(TempResults);
+                new FileInfo(System.IO.Path.Combine(OutputDirectory, Grouping.Key.Name + "Result.html"))
+                    .Write(string.Format(Result,
+                                            FiftyPercentile,
+                                            SeventyFivePercentile,
+                                            NintyPercentile,
+                                            NintyFivePercentile,
+                                            Ticks,
+                                            Rows,
+                                            CPUData,
+                                            MemoryData,
+                                            Description,
+                                            string.IsNullOrEmpty(Grouping.Key.Name) ? "" : (Grouping.Key.Name + " "),
+                                            DateTime.Now.ToString("MM/dd/yyyy")));
+            }
+            var OverallResults = Results.SelectMany(x => x.ToList()).OrderByDescending(x => x.Percentile(0.95m).Time);
+            new FileInfo(System.IO.Path.Combine(OutputDirectory, "Results.html"))
                 .Write(string.Format(Result,
-                                        FiftyPercentile,
-                                        SeventyFivePercentile,
-                                        NintyPercentile,
-                                        NintyFivePercentile,
-                                        Ticks,
-                                        Rows,
-                                        CPUData,
-                                        MemoryData,
-                                        Description));
+                                        GetPercentile(OverallResults, 0.5m),
+                                        GetPercentile(OverallResults, 0.75m),
+                                        GetPercentile(OverallResults, 0.9m),
+                                        GetPercentile(OverallResults, 0.95m),
+                                        GetTimeTicks(OverallResults),
+                                        GetTableData(OverallResults),
+                                        GetCPUData(OverallResults),
+                                        GetMemoryData(OverallResults),
+                                        GetDescription(OverallResults),
+                                        "",
+                                        DateTime.Now.ToString("MM/dd/yyyy")));
+            Result = new FileInfo("resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Index.html").Read();
+            new FileInfo(System.IO.Path.Combine(OutputDirectory, "Index.html"))
+                    .Write(string.Format(Result,
+                                            GetSeriesList(Results),
+                                            DateTime.Now.ToString("MM/dd/yyyy")));
             Dictionary<string, string> Scripts = new Dictionary<string, string>();
             Scripts.Add("excanvas.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.excanvas.min.js");
             Scripts.Add("jquery-1.11.2.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.jquery-1.11.2.min.js");
@@ -82,6 +106,24 @@ namespace Sundial.DefaultFormatter
             });
             Result = new FileInfo("resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Styles.Layout.css").Read();
             new FileInfo(System.IO.Path.Combine(OutputDirectory + "\\Styles", "Layout.css")).Write(Result);
+        }
+
+        /// <summary>
+        /// Gets the series list.
+        /// </summary>
+        /// <param name="Results">The results.</param>
+        /// <returns>The list as a string</returns>
+        private string GetSeriesList(ILookup<ISeries, Core.Result> Results)
+        {
+            return new StringBuilder().Append("<ul>")
+                                        .Append(Results.ToString(x => "<li><a href=\"" +
+                                                                    x.Key.Name +
+                                                                    "Result.html\">" +
+                                                                    (string.IsNullOrEmpty(x.Key.Name) ? "Results" : x.Key.Name) +
+                                                                    "</a></li>",
+                                                                ""))
+                                        .Append("</ul>")
+                                        .ToString();
         }
 
         /// <summary>

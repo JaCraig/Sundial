@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using SerializationExample.Objects;
-using Sundial.Core.Interfaces;
-
-/*
+﻿/*
 Copyright (c) 2015 <a href="http://www.gutgames.com">James Craig</a>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,6 +19,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
+using Newtonsoft.Json;
+using SerializationExample.Objects;
+using Sundial.Core.Attributes;
+using Sundial.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,22 +31,51 @@ using System.Threading.Tasks;
 
 namespace SerializationExample.Deserializers
 {
+    /// <summary>
+    /// Json.Net Deserializer
+    /// </summary>
+    [Series("Deserialization")]
     public class JsonNetDeserializer : ITimedTask
     {
-        public JsonNetDeserializer()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonNetDeserializer"/> class.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        public JsonNetDeserializer(string data)
         {
+            this.Data = data;
         }
 
+        /// <summary>
+        /// Gets or sets the data.
+        /// </summary>
+        /// <value>
+        /// The data.
+        /// </value>
+        private string Data { get; set; }
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public string Name
         {
             get { return "JSON.Net Deserialization"; }
         }
 
+        /// <summary>
+        /// Runs this instance.
+        /// </summary>
         public void Run()
         {
-            var Object = JsonConvert.DeserializeObject(Constants.Json, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+            JsonConvert.DeserializeObject(Data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
         }

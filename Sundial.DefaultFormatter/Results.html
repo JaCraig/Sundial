@@ -8,7 +8,7 @@
 <body>
     <h1>Sundial</h1>
     <div class="dataHolder">
-        <h2>Test Results</h2>
+        <h2>{9}Test Results</h2>
         {8}
         <h2>Average Times</h2>
         <div id="averageHolder" style="width:100%;height:300px">&nbsp;</div>
@@ -36,7 +36,7 @@
         </table>
     </div>
     <div class="footer">
-        Generated using <a href="#">Sundial</a> on 1/1/0001
+        Generated using <a href="http://jacraig.github.io/Sundial/">Sundial</a> on {10}
     </div>
     <script type="text/javascript" src="./Scripts/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="./Scripts/jquery.flot.min.js"></script>
@@ -106,7 +106,7 @@
         }});
         $.plot("#cpuHolder", cpuDataSet, {{
             xaxis: {{
-                axisLabel: "% Time",
+                axisLabel: "Iterations",
                 axisLabelUseCanvas: true
             }},
             yaxis: {{
@@ -116,7 +116,7 @@
         }});
         $.plot("#memoryHolder", memoryDataSet, {{
             xaxis: {{
-                axisLabel: "% Time",
+                axisLabel: "Iterations",
                 axisLabelUseCanvas: true
             }},
             yaxis: {{

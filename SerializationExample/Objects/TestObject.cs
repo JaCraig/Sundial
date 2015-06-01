@@ -25,6 +25,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities.Random.DefaultClasses;
 
 namespace SerializationExample.Objects
 {
@@ -32,45 +33,58 @@ namespace SerializationExample.Objects
     public class TestObject
     {
         [DataMember]
+        [BoolGenerator]
         public virtual bool BoolReference { get; set; }
 
         [DataMember]
         public virtual byte[] ByteArrayReference { get; set; }
 
         [DataMember]
+        [ByteGenerator]
         public virtual byte ByteReference { get; set; }
 
         [DataMember]
+        [CharGenerator]
         public virtual char CharReference { get; set; }
 
         [DataMember]
+        [DecimalGenerator]
         public virtual decimal DecimalReference { get; set; }
 
         [DataMember]
+        [DoubleGenerator]
         public virtual double DoubleReference { get; set; }
 
         [DataMember]
+        [FloatGenerator]
         public virtual float FloatReference { get; set; }
 
         [DataMember]
+        [GuidGenerator]
         public virtual Guid GuidReference { get; set; }
 
         [DataMember]
+        [IntGenerator]
         public virtual int ID { get; set; }
 
         [DataMember]
+        [IntGenerator]
         public virtual int IntReference { get; set; }
 
         [DataMember]
+        [LongGenerator]
         public virtual long LongReference { get; set; }
 
         [DataMember]
+        [StringGenerator]
         public virtual string NullStringReference { get; set; }
 
         [DataMember]
+        [ShortGenerator]
         public virtual short ShortReference { get; set; }
 
         [DataMember]
+        [StringGenerator]
         public virtual string StringReference { get; set; }
     }
 }

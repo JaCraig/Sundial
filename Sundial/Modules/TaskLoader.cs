@@ -40,6 +40,8 @@ namespace Sundial.Modules
         /// <param name="Bootstrapper">Bootstrapper used to register various objects</param>
         public void Load(IBootstrapper Bootstrapper)
         {
+            if (Bootstrapper == null)
+                return;
             Bootstrapper.RegisterAll<ITimedTask>();
             Bootstrapper.RegisterAll<IDataFormatter>();
         }

@@ -19,27 +19,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Sundial.Core.Interfaces
 {
     /// <summary>
-    /// Data formatter
+    /// Series that the tests belong to. Used to separate tasks into groups.
     /// </summary>
-    public interface IDataFormatter
+    public interface ISeries
     {
         /// <summary>
-        /// Gets the name.
+        /// Gets the name of the series.
         /// </summary>
-        /// <value>The name.</value>
+        /// <value>
+        /// The name.
+        /// </value>
         string Name { get; }
-
-        /// <summary>
-        /// Runs this instance.
-        /// </summary>
-        /// <param name="results">The results.</param>
-        /// <param name="outputDirectory">The output directory.</param>
-        void Format(ILookup<ISeries, Result> results, string outputDirectory);
     }
 }
