@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
-using Newtonsoft.Json;
+using JsonFx.Json;
 using SerializationExample.Objects;
 using Sundial.Core.Attributes;
 using Sundial.Core.Interfaces;
@@ -35,15 +35,16 @@ namespace SerializationExample.Deserializers
     /// Json.Net Deserializer
     /// </summary>
     [Series("Deserialization")]
-    public class JsonNetDeserializer : ITimedTask
+    public class JsonFxDeserializer : ITimedTask
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonNetDeserializer"/> class.
+        /// Initializes a new instance of the <see cref="JsonFxDeserializer"/> class.
         /// </summary>
         /// <param name="data">The data.</param>
-        public JsonNetDeserializer(TestObject data)
+        public JsonFxDeserializer(TestObject data)
         {
-            this.Data = JsonConvert.SerializeObject(data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+            this.Data = new JsonWriter().Write(data);
+            this.Reader = new JsonReader();
         }
 
         /// <summary>
@@ -55,6 +56,14 @@ namespace SerializationExample.Deserializers
         private string Data { get; set; }
 
         /// <summary>
+        /// Gets or sets the reader.
+        /// </summary>
+        /// <value>
+        /// The reader.
+        /// </value>
+        private JsonReader Reader { get; set; }
+
+        /// <summary>
         /// Gets the name.
         /// </summary>
         /// <value>
@@ -62,7 +71,7 @@ namespace SerializationExample.Deserializers
         /// </value>
         public string Name
         {
-            get { return "JSON.Net Deserialization"; }
+            get { return "JsonFx Deserialization"; }
         }
 
         /// <summary>
@@ -71,7 +80,7 @@ namespace SerializationExample.Deserializers
         public void Run()
         {
             for (int x = 0; x < 100; ++x)
-                JsonConvert.DeserializeObject(Data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+                Reader.Read(Data);
         }
 
         /// <summary>

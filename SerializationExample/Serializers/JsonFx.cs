@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
-using Newtonsoft.Json;
+using JsonFx.Json;
 using SerializationExample.Objects;
 using Sundial.Core.Attributes;
 using Sundial.Core.Interfaces;
@@ -29,21 +29,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SerializationExample.Deserializers
+namespace SerializationExample.Serializers
 {
     /// <summary>
-    /// Json.Net Deserializer
+    /// JsonFx Serializer
     /// </summary>
-    [Series("Deserialization")]
-    public class JsonNetDeserializer : ITimedTask
+    [Series("Serialization")]
+    public class JsonFxSerializer : ITimedTask
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonNetDeserializer"/> class.
+        /// Initializes a new instance of the <see cref="JsonFxDeserializer" /> class.
         /// </summary>
         /// <param name="data">The data.</param>
-        public JsonNetDeserializer(TestObject data)
+        public JsonFxSerializer(TestObject data)
         {
-            this.Data = JsonConvert.SerializeObject(data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+            this.Data = data;
+            this.Writer = new JsonWriter();
         }
 
         /// <summary>
@@ -52,7 +53,15 @@ namespace SerializationExample.Deserializers
         /// <value>
         /// The data.
         /// </value>
-        private string Data { get; set; }
+        private TestObject Data { get; set; }
+
+        /// <summary>
+        /// Gets or sets the writer.
+        /// </summary>
+        /// <value>
+        /// The writer.
+        /// </value>
+        private JsonWriter Writer { get; set; }
 
         /// <summary>
         /// Gets the name.
@@ -62,7 +71,7 @@ namespace SerializationExample.Deserializers
         /// </value>
         public string Name
         {
-            get { return "JSON.Net Deserialization"; }
+            get { return "JsonFx Serialization"; }
         }
 
         /// <summary>
@@ -71,7 +80,7 @@ namespace SerializationExample.Deserializers
         public void Run()
         {
             for (int x = 0; x < 100; ++x)
-                JsonConvert.DeserializeObject(Data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+                Writer.Write(Data);
         }
 
         /// <summary>

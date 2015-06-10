@@ -72,27 +72,27 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Utilities.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=fb325ba51131afa8, processorArchitecture=MSIL">
-      <HintPath>..\packages\CraigsUtilityLibrary-Configuration.4.0.273-beta\lib\net40\Utilities.Configuration.dll</HintPath>
+      <HintPath>..\packages\CraigsUtilityLibrary-Configuration.4.0.277-beta\lib\net40\Utilities.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Utilities.DataTypes, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2df25aefe5d08d5d, processorArchitecture=MSIL">
-      <HintPath>..\packages\CraigsUtilityLibrary-DataTypes.4.0.273-beta\lib\net40\Utilities.DataTypes.dll</HintPath>
+      <HintPath>..\packages\CraigsUtilityLibrary-DataTypes.4.0.277-beta\lib\net40\Utilities.DataTypes.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Utilities.IO, Version=4.0.0.0, Culture=neutral, PublicKeyToken=4307908d64d1497c, processorArchitecture=MSIL">
-      <HintPath>..\packages\CraigsUtilityLibrary-IO.4.0.273-beta\lib\net40\Utilities.IO.dll</HintPath>
+      <HintPath>..\packages\CraigsUtilityLibrary-IO.4.0.277-beta\lib\net40\Utilities.IO.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Utilities.IoC, Version=4.0.0.0, Culture=neutral, PublicKeyToken=4a6f81c4d5621773, processorArchitecture=MSIL">
-      <HintPath>..\packages\CraigsUtilityLibrary-IoC.4.0.273-beta\lib\net40\Utilities.IoC.dll</HintPath>
+      <HintPath>..\packages\CraigsUtilityLibrary-IoC.4.0.277-beta\lib\net40\Utilities.IoC.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Utilities.Profiler, Version=4.0.0.0, Culture=neutral, PublicKeyToken=ae636060beb69b12, processorArchitecture=MSIL">
-      <HintPath>..\packages\CraigsUtilityLibrary-Profiler.4.0.273-beta\lib\net40\Utilities.Profiler.dll</HintPath>
+      <HintPath>..\packages\CraigsUtilityLibrary-Profiler.4.0.277-beta\lib\net40\Utilities.Profiler.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Utilities.Random, Version=4.0.0.0, Culture=neutral, PublicKeyToken=eae0102cc5f35ea5, processorArchitecture=MSIL">
-      <HintPath>..\packages\CraigsUtilityLibrary-Random.4.0.273-beta\lib\net40\Utilities.Random.dll</HintPath>
+      <HintPath>..\packages\CraigsUtilityLibrary-Random.4.0.277-beta\lib\net40\Utilities.Random.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

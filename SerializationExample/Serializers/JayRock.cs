@@ -19,7 +19,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
-using Newtonsoft.Json;
 using SerializationExample.Objects;
 using Sundial.Core.Attributes;
 using Sundial.Core.Interfaces;
@@ -29,21 +28,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SerializationExample.Deserializers
+namespace SerializationExample.Serializers
 {
     /// <summary>
-    /// Json.Net Deserializer
+    /// JayRock Serializer
     /// </summary>
-    [Series("Deserialization")]
-    public class JsonNetDeserializer : ITimedTask
+    [Series("Serialization")]
+    public class JayRockSerializer : ITimedTask
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonNetDeserializer"/> class.
+        /// Initializes a new instance of the <see cref="JayRockSerializer" /> class.
         /// </summary>
         /// <param name="data">The data.</param>
-        public JsonNetDeserializer(TestObject data)
+        public JayRockSerializer(TestObject data)
         {
-            this.Data = JsonConvert.SerializeObject(data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+            this.Data = data;
         }
 
         /// <summary>
@@ -52,7 +51,7 @@ namespace SerializationExample.Deserializers
         /// <value>
         /// The data.
         /// </value>
-        private string Data { get; set; }
+        private TestObject Data { get; set; }
 
         /// <summary>
         /// Gets the name.
@@ -62,7 +61,7 @@ namespace SerializationExample.Deserializers
         /// </value>
         public string Name
         {
-            get { return "JSON.Net Deserialization"; }
+            get { return "JayRock Serialization"; }
         }
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace SerializationExample.Deserializers
         public void Run()
         {
             for (int x = 0; x < 100; ++x)
-                JsonConvert.DeserializeObject(Data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+                Jayrock.Json.Conversion.JsonConvert.ExportToString(Data);
         }
 
         /// <summary>

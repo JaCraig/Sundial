@@ -35,15 +35,15 @@ namespace SerializationExample.Deserializers
     /// Json.Net Deserializer
     /// </summary>
     [Series("Deserialization")]
-    public class JsonNetDeserializer : ITimedTask
+    public class JayRockDeserializer : ITimedTask
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonNetDeserializer"/> class.
+        /// Initializes a new instance of the <see cref="JayRockDeserializer"/> class.
         /// </summary>
         /// <param name="data">The data.</param>
-        public JsonNetDeserializer(TestObject data)
+        public JayRockDeserializer(TestObject data)
         {
-            this.Data = JsonConvert.SerializeObject(data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+            this.Data = Jayrock.Json.Conversion.JsonConvert.ExportToString(data);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace SerializationExample.Deserializers
         /// </value>
         public string Name
         {
-            get { return "JSON.Net Deserialization"; }
+            get { return "JayRock Deserialization"; }
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace SerializationExample.Deserializers
         public void Run()
         {
             for (int x = 0; x < 100; ++x)
-                JsonConvert.DeserializeObject(Data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+                Jayrock.Json.Conversion.JsonConvert.Import(Data);
         }
 
         /// <summary>

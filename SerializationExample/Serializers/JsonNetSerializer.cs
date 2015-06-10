@@ -40,8 +40,10 @@ namespace SerializationExample.Serializers
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonNetSerializer" /> class.
         /// </summary>
-        public JsonNetSerializer()
+        /// <param name="data">The data.</param>
+        public JsonNetSerializer(TestObject data)
         {
+            this.Data = data;
         }
 
         /// <summary>
@@ -50,7 +52,7 @@ namespace SerializationExample.Serializers
         /// <value>
         /// The data.
         /// </value>
-        private TestObject Data { get { return Utilities.IoC.Manager.Bootstrapper.Resolve<TestObject>(); } }
+        private TestObject Data { get; set; }
 
         /// <summary>
         /// Gets the name.
@@ -68,7 +70,8 @@ namespace SerializationExample.Serializers
         /// </summary>
         public void Run()
         {
-            JsonConvert.SerializeObject(Data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+            for (int x = 0; x < 100; ++x)
+                JsonConvert.SerializeObject(Data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
         }
 
         /// <summary>
