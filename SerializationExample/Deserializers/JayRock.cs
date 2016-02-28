@@ -43,7 +43,7 @@ namespace SerializationExample.Deserializers
         /// <param name="data">The data.</param>
         public JayRockDeserializer(TestObject data)
         {
-            this.Data = Jayrock.Json.Conversion.JsonConvert.ExportToString(data);
+            Data = Jayrock.Json.Conversion.JsonConvert.ExportToString(data);
         }
 
         /// <summary>

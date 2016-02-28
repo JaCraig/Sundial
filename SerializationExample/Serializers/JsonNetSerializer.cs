@@ -43,7 +43,7 @@ namespace SerializationExample.Serializers
         /// <param name="data">The data.</param>
         public JsonNetSerializer(TestObject data)
         {
-            this.Data = data;
+            Data = data;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace SerializationExample.Serializers
         public void Run()
         {
             for (int x = 0; x < 100; ++x)
-                JsonConvert.SerializeObject(Data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+                JsonConvert.SerializeObject(Data, typeof(TestObject), new JsonSerializerSettings { DateFormatHandling = DateFormatHandling.IsoDateFormat });
         }
 
         /// <summary>

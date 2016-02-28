@@ -42,7 +42,7 @@ namespace SerializationExample.Serializers
         /// <param name="data">The data.</param>
         public FastJsonSerializer(TestObject data)
         {
-            this.Data = data;
+            Data = data;
         }
 
         /// <summary>

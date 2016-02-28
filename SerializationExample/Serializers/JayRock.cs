@@ -42,7 +42,7 @@ namespace SerializationExample.Serializers
         /// <param name="data">The data.</param>
         public JayRockSerializer(TestObject data)
         {
-            this.Data = data;
+            Data = data;
         }
 
         /// <summary>

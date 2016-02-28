@@ -48,7 +48,7 @@ namespace ExampleTasks
         /// </summary>
         public void Run()
         {
-            System.Random Rand = new Random();
+            var Rand = new Random();
             int[] Temp = new int[10000];
             for (int x = 0; x < Temp.Length; ++x)
             {

@@ -35,9 +35,8 @@ namespace Sundial.Core.Attributes
         /// </summary>
         /// <param name="name">The name.</param>
         public SeriesAttribute(string name)
-            : base()
         {
-            this.Name = name ?? "";
+            Name = name ?? "";
         }
 
         /// <summary>

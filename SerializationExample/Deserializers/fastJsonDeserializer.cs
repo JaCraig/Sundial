@@ -43,7 +43,7 @@ namespace SerializationExample.Deserializers
         /// <param name="data">The data.</param>
         public FastJsonDeserializer(string data)
         {
-            this.Data = fastJSON.JSON.ToJSON(data);
+            Data = fastJSON.JSON.ToJSON(data);
         }
 
         /// <summary>

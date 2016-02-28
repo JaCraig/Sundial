@@ -66,8 +66,8 @@ namespace Sundial.Config
                 Console.WriteLine("Output directory:");
                 TempOutputDirectory = Console.ReadLine();
             }
-            this.NumberIterations = TempNumberIterations;
-            this.OutputDirectory = TempOutputDirectory;
+            NumberIterations = TempNumberIterations;
+            OutputDirectory = TempOutputDirectory;
         }
 
         /// <summary>

@@ -43,8 +43,8 @@ namespace SerializationExample.Deserializers
         /// <param name="data">The data.</param>
         public JsonFxDeserializer(TestObject data)
         {
-            this.Data = new JsonWriter().Write(data);
-            this.Reader = new JsonReader();
+            Data = new JsonWriter().Write(data);
+            Reader = new JsonReader();
         }
 
         /// <summary>

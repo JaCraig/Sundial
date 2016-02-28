@@ -93,7 +93,7 @@ namespace Sundial.DefaultFormatter
                     .Write(string.Format(Result,
                                             GetSeriesList(Results),
                                             DateTime.Now.ToString("MM/dd/yyyy")));
-            Dictionary<string, string> Scripts = new Dictionary<string, string>();
+            var Scripts = new Dictionary<string, string>();
             Scripts.Add("excanvas.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.excanvas.min.js");
             Scripts.Add("jquery-1.11.2.min.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.jquery-1.11.2.min.js");
             Scripts.Add("jquery.flot.axislabels.js", "resource://Sundial.DefaultFormatter/Sundial.DefaultFormatter.Scripts.jquery.flot.axislabels.js");
@@ -204,7 +204,7 @@ namespace Sundial.DefaultFormatter
         /// <returns>The description</returns>
         private string GetDescription(IEnumerable<Core.Result> Results)
         {
-            StringBuilder Builder = new StringBuilder();
+            var Builder = new StringBuilder();
             var AverageResult = Results.First(x => Results.Min(y => y.Percentile(0.5m).Time) == x.Percentile(0.5m).Time);
             var Min95Result = Results.First(x => Results.Min(y => y.Percentile(0.95m).Time) == x.Percentile(0.95m).Time);
             Builder.AppendFormat("<p>The test results below were run on {0}. The following items were tested:</p><ul>{1}</ul><p>The results themselves are not 100% accurate as things such as garbage collection, background processes, etc. can effect the outcome. As such these should only be used as a guideline and more precise tools should be used to figure out any performance issues. That said, the following points of interest were discovered:</p>", DateTime.Now.ToString("MMMM dd, yyyy HH:mm:ss tt"), Results.ToString(x => "<li>" + x.Name + "</li>", ""));

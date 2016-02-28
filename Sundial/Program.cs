@@ -36,8 +36,8 @@ namespace Sundial
     {
         public static void Main(string[] args)
         {
-            System.Random TempRand = new System.Random();
-            Configuration Config = new Configuration(args);
+            var TempRand = new System.Random();
+            var Config = new Configuration(args);
             using (var Bootstrapper = Utilities.IoC.Manager.Bootstrapper)
             {
                 IEnumerable<IDataFormatter> Formatters = Bootstrapper.ResolveAll<IDataFormatter>();

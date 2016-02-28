@@ -23,11 +23,6 @@ using Newtonsoft.Json;
 using SerializationExample.Objects;
 using Sundial.Core.Attributes;
 using Sundial.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SerializationExample.Deserializers
 {
@@ -43,16 +38,8 @@ namespace SerializationExample.Deserializers
         /// <param name="data">The data.</param>
         public JsonNetDeserializer(TestObject data)
         {
-            this.Data = JsonConvert.SerializeObject(data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+            Data = JsonConvert.SerializeObject(data, typeof(TestObject), new JsonSerializerSettings { DateFormatHandling = DateFormatHandling.IsoDateFormat });
         }
-
-        /// <summary>
-        /// Gets or sets the data.
-        /// </summary>
-        /// <value>
-        /// The data.
-        /// </value>
-        private string Data { get; set; }
 
         /// <summary>
         /// Gets the name.
@@ -66,19 +53,27 @@ namespace SerializationExample.Deserializers
         }
 
         /// <summary>
-        /// Runs this instance.
+        /// Gets or sets the data.
         /// </summary>
-        public void Run()
-        {
-            for (int x = 0; x < 100; ++x)
-                JsonConvert.DeserializeObject(Data, typeof(TestObject), new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.IsoDateFormat });
-        }
+        /// <value>
+        /// The data.
+        /// </value>
+        private string Data { get; set; }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
+        }
+
+        /// <summary>
+        /// Runs this instance.
+        /// </summary>
+        public void Run()
+        {
+            for (int x = 0; x < 100; ++x)
+                JsonConvert.DeserializeObject(Data, typeof(TestObject), new JsonSerializerSettings { DateFormatHandling = DateFormatHandling.IsoDateFormat });
         }
     }
 }

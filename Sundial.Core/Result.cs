@@ -19,11 +19,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.*/
 
-using Sundial.Core.Attributes;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities.DataTypes;
-using Utilities.Profiler.Manager.Default;
 using Utilities.Profiler.Manager.Interfaces;
 
 namespace Sundial.Core
@@ -40,8 +38,8 @@ namespace Sundial.Core
         /// <param name="name">The name.</param>
         public Result(IEnumerable<IResultEntry> times, string name)
         {
-            this.Times = times.ToList(x => x) ?? new List<IResultEntry>();
-            this.Name = string.IsNullOrEmpty(name) ? "" : name;
+            Times = times.ToList(x => x) ?? new List<IResultEntry>();
+            Name = string.IsNullOrEmpty(name) ? "" : name;
         }
 
         /// <summary>
@@ -65,7 +63,7 @@ namespace Sundial.Core
         /// </returns>
         public IResultEntry Percentile(decimal percentage)
         {
-            int PercentileIndex = (int)(Times.Count() * percentage);
+            var PercentileIndex = (int)(Times.Count() * percentage);
             return Times.OrderBy(x => x.Time).ElementAt(PercentileIndex);
         }
 
