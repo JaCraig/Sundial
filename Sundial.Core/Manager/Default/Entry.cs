@@ -14,31 +14,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-using System;
+using Sundial.Core.Manager.Interfaces;
 
-namespace Sundial.Core.Interfaces
+namespace Sundial.Core.Manager.Default
 {
     /// <summary>
-    /// Timed task
+    /// Individual data entry
     /// </summary>
-    public interface ITimedTask : IDisposable
+    /// <seealso cref="IResultEntry"/>
+    public class Entry : IResultEntry
     {
         /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Sundial.Core.Interfaces.ISeries"/> is
-        /// the baseline.
+        /// Initializes a new instance of the <see cref="Entry"/> class.
         /// </summary>
-        /// <value><c>true</c> if it is the baseline; otherwise, <c>false</c>.</value>
-        bool Baseline { get; }
+        /// <param name="value">Entry's value.</param>
+        public Entry(decimal value)
+        {
+            Value = value;
+        }
 
         /// <summary>
-        /// Gets the name.
+        /// Gets the value for the result.
         /// </summary>
-        /// <value>The name.</value>
-        string Name { get; }
-
-        /// <summary>
-        /// Runs this instance.
-        /// </summary>
-        void Run();
+        /// <value>The value for the result.</value>
+        public decimal Value { get; }
     }
 }

@@ -1,70 +1,79 @@
 ﻿/*
-Copyright (c) 2015 <a href="http://www.gutgames.com">James Craig</a>
+Copyright 2017 James Craig
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+    http://www.apache.org/licenses/LICENSE-2.0
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.*/
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 
-using System.Collections.Generic;
+using BigBook;
+using Sundial.Core.Interfaces;
+using Sundial.Core.Manager.Default;
+using Sundial.Core.Manager.Interfaces;
+using System;
 using System.Linq;
-using Utilities.DataTypes;
-using Utilities.Profiler.Manager.Interfaces;
 
 namespace Sundial.Core
 {
     /// <summary>
-    /// Data results
+    /// Result for a specific series.
     /// </summary>
-    public class Result
+    /// <seealso cref="IResult"/>
+    public class Result : IResult
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Result"/> class.
         /// </summary>
-        /// <param name="times">The times.</param>
-        /// <param name="name">The name.</param>
-        public Result(IEnumerable<IResultEntry> times, string name)
+        /// <param name="task">The task.</param>
+        /// <param name="profilerResult">The profiler result.</param>
+        /// <exception cref="System.ArgumentNullException">profilerResult or task</exception>
+        public Result(ITimedTask task, IProfilerResult profilerResult)
         {
-            Times = times.ToList(x => x) ?? new List<IResultEntry>();
-            Name = string.IsNullOrEmpty(name) ? "" : name;
+            if (profilerResult == null)
+                throw new ArgumentNullException(nameof(profilerResult));
+            Task = task ?? throw new ArgumentNullException(nameof(task));
+            Name = profilerResult.Function ?? "";
+            Values = profilerResult.Entries ?? new ListMapping<string, IResultEntry>();
         }
 
         /// <summary>
         /// Gets the name.
         /// </summary>
         /// <value>The name.</value>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
-        /// Gets the times.
+        /// Gets the task.
         /// </summary>
-        /// <value>The times.</value>
-        public IEnumerable<IResultEntry> Times { get; private set; }
+        /// <value>The task.</value>
+        public ITimedTask Task { get; }
 
         /// <summary>
-        /// Gets the value at a specific percentile
+        /// Gets the values.
         /// </summary>
+        /// <value>The values.</value>
+        public ListMapping<string, IResultEntry> Values { get; }
+
+        /// <summary>
+        /// Percentiles the specified name.
+        /// </summary>
+        /// <param name="type">The type.</param>
         /// <param name="percentage">The percentage.</param>
-        /// <returns>
-        /// The value at a specific percentile
-        /// </returns>
-        public IResultEntry Percentile(decimal percentage)
+        /// <returns>The result entry</returns>
+        public IResultEntry Percentile(string type, decimal percentage)
         {
-            var PercentileIndex = (int)(Times.Count() * percentage);
-            return Times.OrderBy(x => x.Time).ElementAt(PercentileIndex);
+            if (!Values.Keys.Contains(type))
+                return new Entry(0);
+            var PercentileIndex = (int)(Values[type].Count() * percentage);
+            return Values[type].OrderBy(x => x.Value).ElementAt(PercentileIndex);
         }
 
         /// <summary>
@@ -73,7 +82,9 @@ namespace Sundial.Core
         /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
         public override string ToString()
         {
-            return Name + ": " + Times.Average(x => x.Time);
+            if (!Values.ContainsKey("Time") || Values["Time"].Count() == 0)
+                return $"{Name} (0 ms)";
+            return $"{Name} ({Values["Time"].Average(x => x.Value)} ms)";
         }
     }
 }

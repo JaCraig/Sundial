@@ -14,22 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-using System;
+using Sundial.Core.Interfaces;
+using System.Collections.Generic;
 
-namespace Sundial.Core.Interfaces
+namespace Sundial.Core.Reports.Interfaces
 {
     /// <summary>
-    /// Timed task
+    /// Data exporter
     /// </summary>
-    public interface ITimedTask : IDisposable
+    public interface IExporter
     {
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Sundial.Core.Interfaces.ISeries"/> is
-        /// the baseline.
-        /// </summary>
-        /// <value><c>true</c> if it is the baseline; otherwise, <c>false</c>.</value>
-        bool Baseline { get; }
-
         /// <summary>
         /// Gets the name.
         /// </summary>
@@ -39,6 +33,9 @@ namespace Sundial.Core.Interfaces
         /// <summary>
         /// Runs this instance.
         /// </summary>
-        void Run();
+        /// <param name="results">The results.</param>
+        /// <param name="series">The series to export.</param>
+        /// <returns>The various file contents.</returns>
+        string Export(ISeries series, IEnumerable<IResult> results);
     }
 }

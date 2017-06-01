@@ -14,31 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-using System;
-
-namespace Sundial.Core.Interfaces
+namespace Sundial.Core.Manager.Interfaces
 {
     /// <summary>
-    /// Timed task
+    /// Profiler result entry interface
     /// </summary>
-    public interface ITimedTask : IDisposable
+    public interface IResultEntry
     {
         /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Sundial.Core.Interfaces.ISeries"/> is
-        /// the baseline.
+        /// Gets the value for the result.
         /// </summary>
-        /// <value><c>true</c> if it is the baseline; otherwise, <c>false</c>.</value>
-        bool Baseline { get; }
-
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        /// <value>The name.</value>
-        string Name { get; }
-
-        /// <summary>
-        /// Runs this instance.
-        /// </summary>
-        void Run();
+        /// <value>The value for the result.</value>
+        decimal Value { get; }
     }
 }

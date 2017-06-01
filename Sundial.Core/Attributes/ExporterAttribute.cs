@@ -14,38 +14,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-using Sundial.Core.Interfaces;
 using System;
 
 namespace Sundial.Core.Attributes
 {
     /// <summary>
-    /// Series attribute. Used to divide the tasks into groups for comparison purposes.
+    /// Exporter attribute
     /// </summary>
     /// <seealso cref="Attribute"/>
-    /// <seealso cref="ISeries"/>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class SeriesAttribute : Attribute, ISeries
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+    public class ExporterAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SeriesAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ExporterAttribute"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="iterations">The iterations.</param>
-        public SeriesAttribute(string name, int iterations = 1000)
+        /// <exception cref="System.ArgumentNullException">name</exception>
+        public ExporterAttribute(string name)
         {
-            Name = name ?? "";
-            Iterations = iterations;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
         /// <summary>
-        /// Gets the number of iterations to run.
-        /// </summary>
-        /// <value>The number of iterations to run.</value>
-        public int Iterations { get; }
-
-        /// <summary>
-        /// Gets the name of the series.
+        /// Gets the name.
         /// </summary>
         /// <value>The name.</value>
         public string Name { get; }
@@ -60,7 +51,7 @@ namespace Sundial.Core.Attributes
         /// </returns>
         public override bool Equals(object obj)
         {
-            var TempObj = obj as SeriesAttribute;
+            var TempObj = obj as ExporterAttribute;
             return !ReferenceEquals(TempObj, null) && string.Equals(TempObj.Name, Name, StringComparison.Ordinal);
         }
 

@@ -14,22 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-using System;
+using BigBook;
+using Sundial.Core.Manager.Interfaces;
 
 namespace Sundial.Core.Interfaces
 {
     /// <summary>
-    /// Timed task
+    /// Result interface
     /// </summary>
-    public interface ITimedTask : IDisposable
+    public interface IResult
     {
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Sundial.Core.Interfaces.ISeries"/> is
-        /// the baseline.
-        /// </summary>
-        /// <value><c>true</c> if it is the baseline; otherwise, <c>false</c>.</value>
-        bool Baseline { get; }
-
         /// <summary>
         /// Gets the name.
         /// </summary>
@@ -37,8 +31,23 @@ namespace Sundial.Core.Interfaces
         string Name { get; }
 
         /// <summary>
-        /// Runs this instance.
+        /// Gets the task.
         /// </summary>
-        void Run();
+        /// <value>The task.</value>
+        ITimedTask Task { get; }
+
+        /// <summary>
+        /// Gets the values.
+        /// </summary>
+        /// <value>The values.</value>
+        ListMapping<string, IResultEntry> Values { get; }
+
+        /// <summary>
+        /// Percentiles the specified name.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="percentage">The percentage.</param>
+        /// <returns>The result entry</returns>
+        IResultEntry Percentile(string type, decimal percentage);
     }
 }
