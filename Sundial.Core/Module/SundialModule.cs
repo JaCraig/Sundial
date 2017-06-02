@@ -18,11 +18,13 @@ using Canister.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Sundial.Core.Analysis;
 using Sundial.Core.Analysis.Interfaces;
+using Sundial.Core.Interfaces;
 using Sundial.Core.Manager;
 using Sundial.Core.Manager.Default;
 using Sundial.Core.Manager.Interfaces;
 using Sundial.Core.Reports;
 using Sundial.Core.Reports.Interfaces;
+using Sundial.Core.Runner;
 
 namespace Sundial.Core.Module
 {
@@ -50,9 +52,11 @@ namespace Sundial.Core.Module
             bootstrapper.Register<StopWatch>();
             bootstrapper.RegisterAll<IAnalyzer>();
             bootstrapper.RegisterAll<IExporter>();
+            bootstrapper.RegisterAll<ITimedTask>();
             bootstrapper.Register<AnalysisManager>(ServiceLifetime.Singleton);
             bootstrapper.Register<ProfilerManager>(ServiceLifetime.Singleton);
             bootstrapper.Register<ReportManager>(ServiceLifetime.Singleton);
+            bootstrapper.Register<TimedTaskRunner>(ServiceLifetime.Singleton);
         }
     }
 }

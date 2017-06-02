@@ -82,7 +82,7 @@ namespace Sundial.Core
         /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
         public override string ToString()
         {
-            if (!Values.ContainsKey("Time") || Values["Time"].Count() == 0)
+            if (!Values.ContainsKey("Time") || !Values["Time"].Any())
                 return $"{Name} (0 ms)";
             return $"{Name} ({Values["Time"].Average(x => x.Value)} ms)";
         }
