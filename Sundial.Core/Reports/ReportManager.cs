@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+using Sundial.Core.Analysis;
 using Sundial.Core.Interfaces;
 using Sundial.Core.Reports.Interfaces;
 using System;
@@ -49,14 +50,15 @@ namespace Sundial.Core.Reports
         /// </summary>
         /// <param name="exporterToUse">The exporter to use.</param>
         /// <param name="series">The series.</param>
-        /// <param name="results">The results.</param>
+        /// <param name="results">The result.</param>
+        /// <param name="findings">The findings.</param>
         /// <returns>This</returns>
         /// <exception cref="System.ArgumentException">exporterToUse</exception>
-        public string Export(string exporterToUse, ISeries series, IEnumerable<IResult> results)
+        public string Export(string exporterToUse, ISeries series, IEnumerable<IResult> results, IEnumerable<Finding> findings)
         {
             if (!Exporters.ContainsKey(exporterToUse))
                 throw new ArgumentException($"Exporter {exporterToUse} not found");
-            return Exporters[exporterToUse].Export(series, results);
+            return Exporters[exporterToUse].Export(series, results, findings);
         }
     }
 }

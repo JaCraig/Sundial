@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 using BigBook;
+using BigBook.ExtensionMethods;
 using Sundial.Core.Analysis;
 using Sundial.Core.Attributes;
 using Sundial.Core.Interfaces;
@@ -53,6 +54,7 @@ namespace Sundial.Core.Runner
                 var SeriesAttribute = Task.GetType().GetTypeInfo().Attribute<SeriesAttribute>() ?? new SeriesAttribute(Task.Name);
                 Tasks.Add(SeriesAttribute, Task);
             }
+            Randomizer = new Mirage.Random();
         }
 
         /// <summary>
@@ -80,12 +82,44 @@ namespace Sundial.Core.Runner
         public ListMapping<ISeries, ITimedTask> Tasks { get; }
 
         /// <summary>
+        /// Gets or sets the randomizer.
+        /// </summary>
+        /// <value>The randomizer.</value>
+        private Mirage.Random Randomizer { get; set; }
+
+        /// <summary>
         /// Runs the tasks using the exporter specified.
         /// </summary>
         /// <param name="exporterToUse">The exporter to use.</param>
         /// <returns></returns>
         public IEnumerable<string> Run(string exporterToUse)
         {
+            List<string> ReturnValues = new List<string>();
+            foreach (var Series in Randomizer.Shuffle(Tasks.Keys))
+            {
+                List<IResult> Results = new List<IResult>();
+                foreach (var Task in Randomizer.Shuffle(Tasks[Series]))
+                {
+                    ((object)null).Cache("Root_Profiler", "Item");
+                    ((object)null).Cache("Current_Profiler", "Item");
+                    using (var Profiler = ProfilerManager.StartProfiling())
+                    {
+                        for (int x = 0; x < Series.Iterations; ++x)
+                        {
+                            using (var Timer = ProfilerManager.Profile(Task.Name))
+                            {
+                                Task.Run();
+                            }
+                        }
+                    }
+                    var Result = ProfilerManager.StopProfiling(false);
+                    var TempResult = new Result(Task, Result.Children[Task.Name]);
+                    Results.Add(TempResult);
+                }
+                var Findings = AnalysisManager.Analyze(Results);
+                ReturnValues.Add(ReportManager.Export(exporterToUse, Series, Results, Findings));
+            }
+            return ReturnValues;
         }
     }
 }

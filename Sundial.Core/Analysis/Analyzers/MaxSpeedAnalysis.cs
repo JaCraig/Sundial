@@ -40,6 +40,8 @@ namespace Sundial.Core.Analysis.Analyzers
         /// <returns>The list of findings</returns>
         public IEnumerable<Finding> Analyze(IEnumerable<IResult> results)
         {
+            if (results == null || !results.Any())
+                return new Finding[0];
             var AverageResult = results.First(x => results.Min(y => y.Percentile("Time", 0.5m).Value) == x.Percentile("Time", 0.5m).Value);
             var Min95Result = results.First(x => results.Min(y => y.Percentile("Time", 0.95m).Value) == x.Percentile("Time", 0.95m).Value);
             if (AverageResult.Name != Min95Result.Name)

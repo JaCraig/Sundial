@@ -19,6 +19,7 @@ using Sundial.Core.Analysis.Enums;
 using Sundial.Core.Analysis.Interfaces;
 using Sundial.Core.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Sundial.Core.Analysis.Analyzers
@@ -42,12 +43,14 @@ namespace Sundial.Core.Analysis.Analyzers
         /// <returns>The list of findings</returns>
         public IEnumerable<Finding> Analyze(IEnumerable<IResult> results)
         {
+            if (results == null || !results.Any())
+                return new Finding[0];
             List<Finding> ReturnValues = new List<Finding>();
             foreach (var TempResult in results)
             {
-                if (TempResult.Task.GetType().GetTypeInfo().Assembly.IsJitOptimized())
+                if (!TempResult.Task.GetType().GetTypeInfo().Assembly.IsJitOptimized())
                 {
-                    ReturnValues.Add(new Finding("Task was not built with optimization enabled. This is most likely due to it being in debug mode. Build in release mode for more accurate results.", FindingType.Warning));
+                    ReturnValues.Add(new Finding($"\"{TempResult.Task.Name}\" was not built with optimization enabled. This is most likely due to it being in debug mode. Build in release mode for more accurate results.", FindingType.Warning));
                 }
             }
             return ReturnValues;

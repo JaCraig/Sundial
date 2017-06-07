@@ -17,6 +17,7 @@ limitations under the License.
 using BigBook.Registration;
 using Canister.Interfaces;
 using FileCurator.Registration;
+using Mirage.Registration;
 using System.Reflection;
 
 namespace Sundial.Core.Registration
@@ -35,7 +36,8 @@ namespace Sundial.Core.Registration
         {
             return bootstrapper.AddAssembly(typeof(Registration).GetTypeInfo().Assembly)
                                .RegisterBigBookOfDataTypes()
-                               .RegisterFileCurator();
+                               .RegisterFileCurator()
+                               .RegisterMirage();
         }
     }
 }

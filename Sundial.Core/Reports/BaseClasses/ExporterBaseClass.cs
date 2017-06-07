@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+using Sundial.Core.Analysis;
 using Sundial.Core.Interfaces;
 using Sundial.Core.Reports.Interfaces;
 using System.Collections.Generic;
@@ -49,8 +50,9 @@ namespace Sundial.Core.Reports.BaseClasses
         /// Runs this instance.
         /// </summary>
         /// <param name="series">The series to export.</param>
-        /// <param name="results">The results.</param>
+        /// <param name="results">The result.</param>
+        /// <param name="findings">The findings.</param>
         /// <returns>The file location.</returns>
-        public abstract string Export(ISeries series, IEnumerable<IResult> results);
+        public abstract string Export(ISeries series, IEnumerable<IResult> results, IEnumerable<Finding> findings);
     }
 }

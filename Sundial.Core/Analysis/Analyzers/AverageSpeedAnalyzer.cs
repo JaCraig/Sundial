@@ -39,6 +39,8 @@ namespace Sundial.Core.Analysis.Analyzers
         /// <returns>The list of findings</returns>
         public IEnumerable<Finding> Analyze(IEnumerable<IResult> results)
         {
+            if (results == null || !results.Any())
+                return new Finding[0];
             var AverageResult = results.First(x => results.Min(y => y.Percentile("Time", 0.5m).Value) == x.Percentile("Time", 0.5m).Value);
             var ReturnValue = new Finding($"\"{AverageResult.Name}\" is the fastest item in the group on average.");
             return new Finding[] { ReturnValue };

@@ -25,8 +25,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BigBook" Version="1.0.18" />
+    <PackageReference Include="BigBook" Version="1.0.20" />
     <PackageReference Include="FileCurator" Version="1.0.10" />
+    <PackageReference Include="Mirage" Version="1.0.9" />
   </ItemGroup>
 
 </Project>

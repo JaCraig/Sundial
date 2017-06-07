@@ -43,8 +43,10 @@ namespace Sundial.Core.Analysis.Analyzers
         /// <returns>The list of findings</returns>
         public IEnumerable<Finding> Analyze(IEnumerable<IResult> results)
         {
-            var MemoryUsageLeastVariable = results.First(x => System.Math.Abs(results.Min(y => y.Values["Memory"].Select(z => (double)z.Value).StandardDeviation()) - x.Values["Memory"].Select(z => (double)z.Value).StandardDeviation()) < EPSILON);
-            return new Finding[] { new Finding($"{MemoryUsageLeastVariable.Name} had the least amount of variability in the memory usage.") };
+            if (results == null || !results.Any())
+                return new Finding[0];
+            var MemoryUsageLeastVariable = results.First(x => System.Math.Abs(results.Min(y => y.Values["Memory"].Select(z => (double)z.Value).StandardDeviation()) - x.Values["Memory"].Select(z => (double)z.Value).StandardDeviation()) <= EPSILON);
+            return new Finding[] { new Finding($"\"{MemoryUsageLeastVariable.Name}\" had the least amount of variability in the memory usage.") };
         }
     }
 }

@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 using BigBook;
+using Sundial.Core.Analysis;
 using Sundial.Core.Interfaces;
 using Sundial.Core.Reports.BaseClasses;
 using System;
@@ -43,13 +44,17 @@ namespace Sundial.Core.Reports.Exporters
         /// <summary>
         /// Runs this instance.
         /// </summary>
-        /// <param name="results">The results.</param>
+        /// <param name="series">The series to export.</param>
+        /// <param name="results">The result.</param>
+        /// <param name="findings">The findings.</param>
         /// <returns>The various file locations.</returns>
-        public override string Export(ISeries series, IEnumerable<IResult> results)
+        public override string Export(ISeries series, IEnumerable<IResult> results, IEnumerable<Finding> findings)
         {
             Console.WriteLine("Series: " + series.Name);
-            var Result = results.ToString(x => x.ToString(), "\n");
+            var Result = results.ToString(x => "\t" + x, "\n");
             Console.WriteLine(Result);
+            Console.WriteLine();
+            Console.WriteLine(findings.ToString(x => x.Type.ToString() + ": " + x.Description, "\n"));
             return "";
         }
     }
