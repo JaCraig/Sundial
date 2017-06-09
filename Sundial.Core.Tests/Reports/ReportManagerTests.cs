@@ -26,10 +26,10 @@ namespace Sundial.Core.Tests.Reports
         public void Export()
         {
             var TestObject = new ReportManager(new IExporter[] { new ConsoleExporter() });
-            Assert.Equal("", TestObject.Export("Console",
+            Assert.Equal("", TestObject.Export(new string[] { "Console" },
                                                 new SeriesAttribute("", 1000),
                                                 new IResult[] { new Result(new TimedTaskMock(), new InternalProfiler(new List<IMeasurement>())) },
-                                                new List<Finding>()));
+                                                new List<Finding>())[0]);
         }
     }
 }

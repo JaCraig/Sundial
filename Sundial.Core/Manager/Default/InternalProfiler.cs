@@ -286,18 +286,14 @@ namespace Sundial.Core.Manager.Default
         {
             if (Current == null)
             {
-                for (int x = 0; x < Measurements.Length; ++x)
-                {
-                    Measurements[x].Dispose();
-                }
                 return;
             }
             if (Current.Running)
             {
                 Current.Running = false;
-                for (int x = 0; x < Measurements.Length; ++x)
+                for (int x = 0; x < Current.Measurements.Length; ++x)
                 {
-                    Current.Entries.Add(Measurements[x].Type, Measurements[x].StopProfiling(false));
+                    Current.Entries.Add(Current.Measurements[x].Type, Current.Measurements[x].StopProfiling(false));
                 }
                 Current = Parent;
             }

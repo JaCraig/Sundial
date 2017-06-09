@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+using BigBook;
 using Sundial.Core.Analysis;
 using Sundial.Core.Interfaces;
 using Sundial.Core.Reports.Interfaces;
@@ -48,17 +49,47 @@ namespace Sundial.Core.Reports
         /// <summary>
         /// Exports the specified exporter to use.
         /// </summary>
-        /// <param name="exporterToUse">The exporter to use.</param>
+        /// <param name="exportersToUse">The exporter to use.</param>
         /// <param name="series">The series.</param>
         /// <param name="results">The result.</param>
         /// <param name="findings">The findings.</param>
-        /// <returns>This</returns>
+        /// <returns>The list of files exported from the application.</returns>
         /// <exception cref="System.ArgumentException">exporterToUse</exception>
-        public string Export(string exporterToUse, ISeries series, IEnumerable<IResult> results, IEnumerable<Finding> findings)
+        public List<string> Export(string[] exportersToUse, ISeries series, IEnumerable<IResult> results, IEnumerable<Finding> findings)
         {
-            if (!Exporters.ContainsKey(exporterToUse))
-                throw new ArgumentException($"Exporter {exporterToUse} not found");
-            return Exporters[exporterToUse].Export(series, results, findings);
+            if (exportersToUse == null || exportersToUse.Length == 0)
+                exportersToUse = new string[] { "Console" };
+            List<string> ReturnValue = new List<string>();
+            foreach (string exporterToUse in exportersToUse)
+            {
+                if (!Exporters.ContainsKey(exporterToUse))
+                    throw new ArgumentException($"Exporter {exporterToUse} not found");
+                ReturnValue.Add(Exporters[exporterToUse].Export(series, results, findings));
+            }
+            return ReturnValue;
+        }
+
+        /// <summary>
+        /// Summarizes the specified summary data.
+        /// </summary>
+        /// <param name="summaryData">The summary data.</param>
+        /// <returns>The list of files exported from the application.</returns>
+        public List<string> Summarize(ListMapping<ISeries, IResult> summaryData)
+        {
+            List<string> ReturnValue = new List<string>();
+            foreach (var Data in summaryData.Keys)
+            {
+                var ExportersToUse = Data.Exporters;
+                if (ExportersToUse == null || ExportersToUse.Length == 0)
+                    ExportersToUse = new string[] { "Console" };
+                foreach (string ExporterToUse in ExportersToUse)
+                {
+                    if (!Exporters.ContainsKey(ExporterToUse))
+                        throw new ArgumentException($"Exporter {ExporterToUse} not found");
+                    ReturnValue.Add(Exporters[ExporterToUse].Summarize(summaryData));
+                }
+            }
+            return ReturnValue;
         }
     }
 }

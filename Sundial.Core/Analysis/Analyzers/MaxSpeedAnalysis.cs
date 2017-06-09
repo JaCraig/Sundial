@@ -42,8 +42,8 @@ namespace Sundial.Core.Analysis.Analyzers
         {
             if (results == null || !results.Any())
                 return new Finding[0];
-            var AverageResult = results.First(x => results.Min(y => y.Percentile("Time", 0.5m).Value) == x.Percentile("Time", 0.5m).Value);
-            var Min95Result = results.First(x => results.Min(y => y.Percentile("Time", 0.95m).Value) == x.Percentile("Time", 0.95m).Value);
+            var AverageResult = results.OrderBy(x => x.Percentile("Time", 0.5m).Value).First();
+            var Min95Result = results.OrderBy(x => x.Percentile("Time", 0.95m).Value).First();
             if (AverageResult.Name != Min95Result.Name)
                 return new Finding[] { new Finding($"\"{AverageResult.Name}\" on average is faster but in the 95% instances, we see \"{Min95Result.Name}\" showing better in the worst case scenarios.") };
             return new Finding[0];

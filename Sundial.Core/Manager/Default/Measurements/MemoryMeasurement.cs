@@ -28,7 +28,6 @@ namespace Sundial.Core.Manager.Default.Measurements
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryMeasurement"/> class.
         /// </summary>
-        /// <param name="timer">The timer.</param>
         public MemoryMeasurement()
         {
             if (Timer == null)

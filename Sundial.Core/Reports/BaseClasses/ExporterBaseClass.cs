@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+using BigBook;
 using Sundial.Core.Analysis;
 using Sundial.Core.Interfaces;
 using Sundial.Core.Reports.Interfaces;
@@ -54,5 +55,12 @@ namespace Sundial.Core.Reports.BaseClasses
         /// <param name="findings">The findings.</param>
         /// <returns>The file location.</returns>
         public abstract string Export(ISeries series, IEnumerable<IResult> results, IEnumerable<Finding> findings);
+
+        /// <summary>
+        /// Used to write a summary about the various series tested.
+        /// </summary>
+        /// <param name="summaryData">The summary data.</param>
+        /// <returns>The file exported from the system.</returns>
+        public abstract string Summarize(ListMapping<ISeries, IResult> summaryData);
     }
 }

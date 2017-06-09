@@ -28,8 +28,6 @@ namespace Sundial.Core.Analysis.Analyzers
     /// <seealso cref="IAnalyzer"/>
     public class MemoryVariability : IAnalyzer
     {
-        private readonly double EPSILON;
-
         /// <summary>
         /// Gets the name.
         /// </summary>
@@ -45,7 +43,7 @@ namespace Sundial.Core.Analysis.Analyzers
         {
             if (results == null || !results.Any())
                 return new Finding[0];
-            var MemoryUsageLeastVariable = results.First(x => System.Math.Abs(results.Min(y => y.Values["Memory"].Select(z => (double)z.Value).StandardDeviation()) - x.Values["Memory"].Select(z => (double)z.Value).StandardDeviation()) <= EPSILON);
+            var MemoryUsageLeastVariable = results.OrderBy(x => x.Values["Memory"].Select(y => (double)y.Value).StandardDeviation()).First();
             return new Finding[] { new Finding($"\"{MemoryUsageLeastVariable.Name}\" had the least amount of variability in the memory usage.") };
         }
     }

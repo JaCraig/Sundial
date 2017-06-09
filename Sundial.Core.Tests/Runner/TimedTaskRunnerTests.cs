@@ -40,7 +40,7 @@ namespace Sundial.Core.Tests.Runner
         public void Run()
         {
             var TestObject = Canister.Builder.Bootstrapper.Resolve<TimedTaskRunner>();
-            var Result = TestObject.Run("Console");
+            var Result = TestObject.Run();
             Assert.NotEmpty(Result);
         }
     }

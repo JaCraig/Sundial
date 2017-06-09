@@ -1,5 +1,6 @@
 ﻿using FileCurator.Registration;
 using Microsoft.Extensions.DependencyInjection;
+using SerialBox.Registration;
 using Sundial.Core.Registration;
 using Sundial.Core.Runner;
 using System;
@@ -16,9 +17,10 @@ namespace TestApp
                     .AddAssembly(typeof(Program).GetTypeInfo().Assembly)
                     .RegisterSundial()
                     .RegisterFileCurator()
+                    .RegisterSerialBox()
                     .Build();
             var Runner = Canister.Builder.Bootstrapper.Resolve<TimedTaskRunner>();
-            Runner.Run("Console");
+            Runner.Run();
             Console.ReadKey();
         }
     }

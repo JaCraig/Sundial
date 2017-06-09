@@ -22,6 +22,12 @@ namespace Sundial.Core.Interfaces
     public interface ISeries
     {
         /// <summary>
+        /// Gets the name of the exporter to use.
+        /// </summary>
+        /// <value>The name of the exporter to use.</value>
+        string[] Exporters { get; }
+
+        /// <summary>
         /// Gets the number of iterations to run.
         /// </summary>
         /// <value>The number of iterations to run.</value>

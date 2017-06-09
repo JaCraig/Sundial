@@ -25,9 +25,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Reports\Exporters\Resources\Index.html" />
+    <None Remove="Reports\Exporters\Resources\Results.html" />
+    <None Remove="Reports\Exporters\Resources\Scripts\excanvas.min.js" />
+    <None Remove="Reports\Exporters\Resources\Scripts\jquery-1.11.2.min.js" />
+    <None Remove="Reports\Exporters\Resources\Scripts\jquery.flot.axislabels.js" />
+    <None Remove="Reports\Exporters\Resources\Scripts\jquery.flot.min.js" />
+    <None Remove="Reports\Exporters\Resources\Scripts\jquery.tablesorter.min.js" />
+    <None Remove="Reports\Exporters\Resources\Styles\Layout.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\Exporters\Resources\Index.html" />
+    <EmbeddedResource Include="Reports\Exporters\Resources\Results.html" />
+    <EmbeddedResource Include="Reports\Exporters\Resources\Scripts\excanvas.min.js" />
+    <EmbeddedResource Include="Reports\Exporters\Resources\Scripts\jquery-1.11.2.min.js" />
+    <EmbeddedResource Include="Reports\Exporters\Resources\Scripts\jquery.flot.axislabels.js" />
+    <EmbeddedResource Include="Reports\Exporters\Resources\Scripts\jquery.flot.min.js" />
+    <EmbeddedResource Include="Reports\Exporters\Resources\Scripts\jquery.tablesorter.min.js" />
+    <EmbeddedResource Include="Reports\Exporters\Resources\Styles\Layout.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BigBook" Version="1.0.20" />
-    <PackageReference Include="FileCurator" Version="1.0.10" />
+    <PackageReference Include="Canister.IoC" Version="1.0.46" />
+    <PackageReference Include="FileCurator" Version="1.0.15" />
     <PackageReference Include="Mirage" Version="1.0.9" />
+    <PackageReference Include="Serilog" Version="2.4.0" />
   </ItemGroup>
 
 </Project>

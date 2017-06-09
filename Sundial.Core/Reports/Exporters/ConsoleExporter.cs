@@ -51,10 +51,25 @@ namespace Sundial.Core.Reports.Exporters
         public override string Export(ISeries series, IEnumerable<IResult> results, IEnumerable<Finding> findings)
         {
             Console.WriteLine("Series: " + series.Name);
-            var Result = results.ToString(x => "\t" + x, "\n");
-            Console.WriteLine(Result);
             Console.WriteLine();
-            Console.WriteLine(findings.ToString(x => x.Type.ToString() + ": " + x.Description, "\n"));
+            Console.WriteLine(results.ToString(x => "* " + x, "\n"));
+            Console.WriteLine();
+            Console.WriteLine("Analysis:");
+            Console.WriteLine("------------------------------------------------------------");
+            Console.WriteLine(findings.ToString(x => "* " + x.Type.ToString() + ": " + x.Description, "\n"));
+            Console.WriteLine("------------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine();
+            return "";
+        }
+
+        /// <summary>
+        /// Used to write a summary about the various series tested.
+        /// </summary>
+        /// <param name="summaryData">The summary data.</param>
+        /// <returns>The file exported from the system.</returns>
+        public override string Summarize(ListMapping<ISeries, IResult> summaryData)
+        {
             return "";
         }
     }

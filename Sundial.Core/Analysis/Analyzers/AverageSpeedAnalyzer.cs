@@ -41,9 +41,12 @@ namespace Sundial.Core.Analysis.Analyzers
         {
             if (results == null || !results.Any())
                 return new Finding[0];
-            var AverageResult = results.First(x => results.Min(y => y.Percentile("Time", 0.5m).Value) == x.Percentile("Time", 0.5m).Value);
-            var ReturnValue = new Finding($"\"{AverageResult.Name}\" is the fastest item in the group on average.");
-            return new Finding[] { ReturnValue };
+            var AverageResult = results.OrderBy(x => x.Percentile("Time", 0.5m).Value).First();
+            var AverageResult2 = results.OrderBy(x => x.Average("Time")).First();
+            return new Finding[] {
+                new Finding($"\"{AverageResult.Name}\" is the fastest item in the group in the 50 percentile."),
+                new Finding($"\"{AverageResult2.Name}\" is the fastest item in the group on average.")
+            };
         }
     }
 }

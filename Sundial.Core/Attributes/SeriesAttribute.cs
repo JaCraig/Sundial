@@ -32,11 +32,19 @@ namespace Sundial.Core.Attributes
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="iterations">The iterations.</param>
-        public SeriesAttribute(string name, int iterations = 1000)
+        /// <param name="exporters">Exporters to use.</param>
+        public SeriesAttribute(string name, int iterations = 1000, params string[] exporters)
         {
             Name = name ?? "";
             Iterations = iterations;
+            Exporters = exporters ?? new string[] { "Console" };
         }
+
+        /// <summary>
+        /// Gets the name of the exporter to use.
+        /// </summary>
+        /// <value>The name of the exporter to use.</value>
+        public string[] Exporters { get; }
 
         /// <summary>
         /// Gets the number of iterations to run.

@@ -63,6 +63,18 @@ namespace Sundial.Core
         public ListMapping<string, IResultEntry> Values { get; }
 
         /// <summary>
+        /// Averages the values of the specified type.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The average value</returns>
+        public decimal Average(string type)
+        {
+            if (!Values.Keys.Contains(type))
+                return 0;
+            return Values[type].Average(x => x.Value);
+        }
+
+        /// <summary>
         /// Percentiles the specified name.
         /// </summary>
         /// <param name="type">The type.</param>

@@ -42,7 +42,7 @@ namespace Sundial.Core.Analysis.Analyzers
         {
             if (results == null || !results.Any())
                 return new Finding[0];
-            var MemoryUsageMin = results.First(x => results.Min(y => y.Values["Memory"].Average(z => z.Value)) == x.Values["Memory"].Average(z => z.Value));
+            var MemoryUsageMin = results.OrderBy(x => x.Percentile("Memory", 0.5m).Value).First();
             return new Finding[] { new Finding($"On average \"{MemoryUsageMin.Name}\" used the least amount of memory throughout the test's lifecycle.") };
         }
     }

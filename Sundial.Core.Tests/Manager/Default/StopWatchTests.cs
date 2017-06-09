@@ -14,6 +14,10 @@ namespace Sundial.Core.Tests.Manager.Default
             Thread.Sleep(100);
             TestObject.Stop();
             Assert.InRange(TestObject.ElapsedTime, 80, 200);
+            TestObject.Start();
+            Thread.Sleep(100);
+            TestObject.Stop();
+            Assert.InRange(TestObject.ElapsedTime, 80, 200);
         }
     }
 }

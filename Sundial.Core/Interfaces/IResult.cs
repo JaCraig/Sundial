@@ -43,6 +43,13 @@ namespace Sundial.Core.Interfaces
         ListMapping<string, IResultEntry> Values { get; }
 
         /// <summary>
+        /// Averages the values of the specified type.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The average value</returns>
+        decimal Average(string type);
+
+        /// <summary>
         /// Percentiles the specified name.
         /// </summary>
         /// <param name="type">The type.</param>
