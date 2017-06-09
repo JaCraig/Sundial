@@ -1,66 +1,234 @@
 # Sundial
-Sundial is a simple application that can be used to profile code and gives a nice html output of the results.
+
+[![Build status](https://ci.appveyor.com/api/projects/status/hleskrweq8m91y5q?svg=true)](https://ci.appveyor.com/project/JaCraig/sundial)
+
+Sundial is a simple library that can be used to profile code and gives a nice html output of the results.
+
+## Setting Up the Library
+
+Sundial relies on [Canister](https://github.com/JaCraig/Canister) in order to hook itself up. In order for this to work, you must do the following at startup:
+
+    Canister.Builder.CreateContainer(new List<ServiceDescriptor>())
+                    .RegisterSundial()
+                    .Build();
+					
+The RegisterSundial function is an extension method that registers it with the IoC container. When this is done, Sundial is ready to use.
 
 ## What does it profile?
-Currently it checks speed, CPU, and memory usage but I plan on opening it up a bit more so that other information can be added/removed depending on your needs.
+Currently it checks speed and memory usage but I plan on opening it up a bit more so that other information can be added/removed depending on your needs.
 
-## How do I set it up?
-Well I've uploaded a package to chocolatey but it appears that they're a bit backlogged at the moment. Haven't even received a message from them yet. But this should work:
+## Basic Usage
 
-    choco install sundial -version 0.1.0
+Sundial can be used in one of two ways. The first is simple profiling of code:
+
+    namespace ExampleApp
+    {
+        internal class Program
+        {
+            private static void Main(string[] args)
+            {
+                Canister.Builder.CreateContainer(new List<ServiceDescriptor>())
+                        .AddAssembly(typeof(Program).GetTypeInfo().Assembly)
+                        .RegisterSundial()
+                        .Build();
+                using (var TestObject = Profiler.StartProfiling())
+                {
+                    using (var MyChildProfiler = TestObject.Profile("Description of code block"))
+                    {
+					    using (var AnotherProfiler = TestObject.Profile("Description of sub code block"))
+                        {
+                            ...
+                        }
+                    }
+                    using (var MyChildProfiler2 = TestObject.Profile("Description of second code block"))
+                    {
+                        ...
+                    }
+                }
+                var Result = Profiler.StopProfiling(false);
+            }
+        }
+    }
+	
+The above example shows how to profile individual blocks of code looking for hotspots. The profiling starts when StartProfiling is called. Each individual block of code is started when TestObject.Profile is called. This function returns an IDisposable. When the object is disposed, the profiler is stopped for that individual section. When StopProfiling is called, it returns an IProfilerResult object. This object will contain all of the results found while profiling.
+
+The other way to use Sundial is to compare two bits of code:
+
+    namespace TestApp
+    {
+        internal class Program
+        {
+            private static void Main(string[] args)
+            {
+                Canister.Builder.CreateContainer(new List<ServiceDescriptor>())
+                        .AddAssembly(typeof(Program).GetTypeInfo().Assembly)
+                        .RegisterSundial()
+                        .Build();
+                var Runner = Canister.Builder.Bootstrapper.Resolve<TimedTaskRunner>();
+                Runner.Run();
+                Console.ReadKey();
+            }
+        }
+    }
+	
+The above code creates a TimedTaskRunner object and tells it to run. When that is called it will find all classes that inherit from ITimedTask and profile them. As an example:
+
+    namespace TestApp.Tasks.Deserialization
+    {
+        [Series("Deserialization", 1000, "Console", "HTML")]
+        public class JsonNetDeserialization : ITimedTask
+        {
+            private const string Data = @"{ ""BoolReference"" : true,
+      ""ByteArrayReference"" : [ 1,
+          2,
+          3,
+          4
+        ],
+      ""ByteReference"" : 200,
+      ""CharReference"" : ""A"",
+      ""DecimalReference"" : 1.234,
+      ""DoubleReference"" : 1.234,
+      ""FloatReference"" : 1.234,
+      ""GuidReference"" : ""5bec9017-7c9e-4c52-a8d8-ac511c464370"",
+      ""ID"" : 55,
+      ""IntReference"" : 123,
+      ""LongReference"" : 42134123,
+      ""NullStringReference"" : null,
+      ""ShortReference"" : 1234,
+      ""StringReference"" : ""This is a test string""
+    }";
     
-In theory anyway... From there you should have the app in your path (sundial.exe). Otherwise just download it here and build. Shouldn't take anything special.
-
-## OK, it's there... Now what?
-Now you need to create your tasks that you want profiled. In order to do this, create a class library project and pull down the Sundial Core Library package via NuGet:
-
-    Install-Package sundial.core -Pre
+            public bool Baseline => true;
     
-Since this app is still in beta you're dealing with prerelease versions of stuff... At least for now. From there you just need to create a class that inherits from ITimedTask for each item that you want to time. So for instance:
+            public string Name => "Json.Net";
+    
+            public void Dispose()
+            {
+            }
+    
+            public void Run()
+            {
+                JsonConvert.DeserializeObject(Data, typeof(TestObject), new JsonSerializerSettings { DateFormatHandling = DateFormatHandling.IsoDateFormat });
+            }
+        }
+    }
+	
+The above bit of code is an example of an ITimedTask class. This one uses Json.NET to deserialize an object. The task has a name and is declared as the Baseline for te series. A series, as denoted by the attribute on the class, is used to group various ITimedTasks together so that they can be compared. It takes a name for the series, the number of iterations to run for, and which exporters to use. In the above code it specifies 1000 iterations and to export to both the console and to a set of html files. After the tasks are run, the results are sent to a set of analyzers and a group of exporters.
+
+## Adding an analyzer
+
+If you want to add a custom analyzer, you simply inherit from the IAnalyzer interface:
 
     /// <summary>
-    /// Example task 1
+    /// Max speed analysis
     /// </summary>
-    public class ExampleTask1 : ITimedTask
+    /// <seealso cref="IAnalyzer"/>
+    public class MaxSpeedAnalysis : IAnalyzer
     {
         /// <summary>
         /// Gets the name.
         /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        public string Name { get { return "Example1"; } }
-        
+        /// <value>The name.</value>
+        public string Name => "Max speed analysis";
+
+        /// <summary>
+        /// Analyzes the specified result.
+        /// </summary>
+        /// <param name="results">The results.</param>
+        /// <returns>The list of findings</returns>
+        public IEnumerable<Finding> Analyze(IEnumerable<IResult> results)
+        {
+            if (results == null || !results.Any())
+                return new Finding[0];
+            var AverageResult = results.OrderBy(x => x.Percentile("Time", 0.5m).Value).First();
+            var Min95Result = results.OrderBy(x => x.Percentile("Time", 0.95m).Value).First();
+            if (AverageResult.Name != Min95Result.Name)
+                return new Finding[] { new Finding($"\"{AverageResult.Name}\" on average is faster but in the 95% instances, we see \"{Min95Result.Name}\" showing better in the worst case scenarios.") };
+            return new Finding[0];
+        }
+    }
+	
+The above analyzer is an example from the library itself. It compares the task with the best time at the median and sees if it is also the fastest in the 95th percentile. If it is not, it returns a Finding object letting the user know of the difference. In order to have your analyzer picked up by the system you must add it to Canister:
+
+    Canister.Builder.CreateContainer(new List<ServiceDescriptor>())
+                        .AddAssembly(typeof(MaxSpeedAnalysis).GetTypeInfo().Assembly)
+                        .RegisterSundial()
+                        .Build();
+						
+With the above, the new analyzer would be picked up by the system.
+
+## Adding an exporter
+
+Adding an exporter is the same as an analyzer but you need to inherit from the IExporter interface:
+
+    /// <summary>
+    /// Console exporter
+    /// </summary>
+    /// <seealso cref="ExporterBaseClass"/>
+    public class ConsoleExporter : ExporterBaseClass
+    {
+        /// <summary>
+        /// Gets the file name suffix.
+        /// </summary>
+        /// <value>The file name suffix.</value>
+        public override string FileNameSuffix => "";
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        public override string Name => "Console";
+
         /// <summary>
         /// Runs this instance.
         /// </summary>
-        public void Run()
+        /// <param name="series">The series to export.</param>
+        /// <param name="results">The result.</param>
+        /// <param name="findings">The findings.</param>
+        /// <returns>The various file locations.</returns>
+        public override string Export(ISeries series, IEnumerable<IResult> results, IEnumerable<Finding> findings)
         {
-            System.Random Rand = new Random();
-            int[] Temp = new int[10000];
-            for (int x = 0; x < Temp.Length; ++x)
-            {
-                Temp[x] = Rand.Next();
-            }
+            Console.WriteLine("Series: " + series.Name);
+            Console.WriteLine();
+            Console.WriteLine(results.ToString(x => "* " + x, "\n"));
+            Console.WriteLine();
+            Console.WriteLine("Analysis:");
+            Console.WriteLine("------------------------------------------------------------");
+            Console.WriteLine(findings.ToString(x => "* " + x.Type.ToString() + ": " + x.Description, "\n"));
+            Console.WriteLine("------------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine();
+            return "";
         }
-        
+
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Used to write a summary about the various series tested.
         /// </summary>
-        public void Dispose()
+        /// <param name="summaryData">The summary data.</param>
+        /// <returns>The file exported from the system.</returns>
+        public override string Summarize(ListMapping<ISeries, IResult> summaryData)
         {
+            return "";
         }
     }
-    
-You'll notice that it inherits from IDisposable. The reason for this is so that you can do any necessary setup in the constructor and any teardown that is required in the Dispose function. Note that the constructor is only called once at the application's start up and the Dispose function is only called once as well when the application is shutting down. From there, just build the DLL.
+	
+The one above is the built in Console exporter. Note that it inherits from the ExporterBaseClass which is not necessary. You would register this the same way as the analyzer class above:
 
-## How do I run this thing?
-Go to the location of the class library that you built before and run the following:
+    Canister.Builder.CreateContainer(new List<ServiceDescriptor>())
+                        .AddAssembly(typeof(ConsoleExporter).GetTypeInfo().Assembly)
+                        .RegisterSundial()
+                        .Build();
 
-    sundial
-    
-That's it. It will then run your set of tasks and put the results in a directory called Results. Also note that the application, by default, runs each task a total of 10,000 times. So for long running tasks, you may wish to go into the app.config file for sundial.exe and modify the NumberOfIterations or OutputDirectory if you would like the results in a different directory. In the future I'll add command line arguments, but you know... Beta... Also, in case you've used the chocolatey installer, it will add the application here:
+## Installation
 
-    C:\ProgramData\chocolatey\lib\sundial
-    
-As I work on this a bit more, I'll add examples of the output, etc. And if you run into issues, have feature requests, etc. please post them here. And as I've said before, this is beta so don't be shocked if things change a bit as I work out how I want this thing to function.
+The library is available via Nuget with the package name "Sundial.Core". To install it run the following command in the Package Manager Console:
+
+Install-Package Sundial.Core
+
+## Build Process
+
+In order to build the library you will require the following:
+
+1. Visual Studio 2017
+
+Other than that, just clone the project and you should be able to load the solution and build without too much effort.
