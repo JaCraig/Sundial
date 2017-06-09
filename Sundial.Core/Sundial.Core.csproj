@@ -10,7 +10,7 @@
     <TargetFramework>netstandard1.6</TargetFramework>
     <PackageId>sundial.core</PackageId>
     <AssemblyName>Sundial.Core</AssemblyName>
-    <AssemblyTitle>Sundial.Core</AssemblyTitle>
+    <AssemblyTitle>Sundial Core Library</AssemblyTitle>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Product>Sundial Core Library</Product>
     <Authors>James Craig</Authors>
