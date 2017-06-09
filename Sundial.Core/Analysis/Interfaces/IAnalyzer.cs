@@ -14,22 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-using System;
+using Sundial.Core.Interfaces;
+using System.Collections.Generic;
 
-namespace Sundial.Core.Interfaces
+namespace Sundial.Core.Analysis.Interfaces
 {
     /// <summary>
-    /// Timed task
+    /// Analyzer interface
     /// </summary>
-    public interface ITimedTask : IDisposable
+    public interface IAnalyzer
     {
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Sundial.Core.Interfaces.ISeries"/> is
-        /// the baseline.
-        /// </summary>
-        /// <value><c>true</c> if it is the baseline; otherwise, <c>false</c>.</value>
-        bool Baseline { get; }
-
         /// <summary>
         /// Gets the name.
         /// </summary>
@@ -37,8 +31,10 @@ namespace Sundial.Core.Interfaces
         string Name { get; }
 
         /// <summary>
-        /// Runs this instance.
+        /// Analyzes the specified result.
         /// </summary>
-        void Run();
+        /// <param name="results">The results.</param>
+        /// <returns>The list of findings</returns>
+        IEnumerable<Finding> Analyze(IEnumerable<IResult> results);
     }
 }

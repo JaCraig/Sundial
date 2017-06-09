@@ -14,31 +14,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-using System;
-
-namespace Sundial.Core.Interfaces
+namespace Sundial.Core.Analysis.Enums
 {
     /// <summary>
-    /// Timed task
+    /// Finding type
     /// </summary>
-    public interface ITimedTask : IDisposable
+    public enum FindingType
     {
         /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Sundial.Core.Interfaces.ISeries"/> is
-        /// the baseline.
+        /// The information type
         /// </summary>
-        /// <value><c>true</c> if it is the baseline; otherwise, <c>false</c>.</value>
-        bool Baseline { get; }
+        Info = 0,
 
         /// <summary>
-        /// Gets the name.
+        /// The warning type
         /// </summary>
-        /// <value>The name.</value>
-        string Name { get; }
+        Warning,
 
         /// <summary>
-        /// Runs this instance.
+        /// The error type
         /// </summary>
-        void Run();
+        Error
     }
 }
