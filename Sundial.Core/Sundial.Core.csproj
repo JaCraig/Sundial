@@ -9,7 +9,8 @@
     <!-- if not set -->
     <TargetFramework>netstandard1.6</TargetFramework>
     <PackageId>sundial.core</PackageId>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AssemblyName>Sundial.Core</AssemblyName>
+    <AssemblyTitle>Sundial.Core</AssemblyTitle>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Product>Sundial Core Library</Product>
     <Authors>James Craig</Authors>
@@ -18,9 +19,12 @@
     <PackageProjectUrl>https://github.com/JaCraig/Sundial</PackageProjectUrl>
     <Description>Sundial is a profiler library used for both comparison of multiple bits of code and hot spot detection.</Description>
     <Copyright>Copyright 2017</Copyright>
-    <PackageTags>sundial profiler core</PackageTags>
+    <PackageTags>sundial;profiler;core</PackageTags>
     <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>1.0.$(BuildNumber)</Version>
   </PropertyGroup>
 
