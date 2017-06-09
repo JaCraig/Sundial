@@ -16,7 +16,7 @@
     <Company>James Craig</Company>
     <PackageLicenseUrl>https://github.com/JaCraig/Sundial/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/JaCraig/Sundial</PackageProjectUrl>
-    <Description>This is the core library needed to create tasks for Sundial to run. Simply add this package, create a class that inherits from ITimedTask, and you're done coding. Then install Sundial via Chocolatey, open up a command window in the bin directory for this project, and type 'sundial'. The system will then run the tasks and give you a nicely formatted report.</Description>
+    <Description>Sundial is a profiler library used for both comparison of multiple bits of code and hot spot detection.</Description>
     <Copyright>Copyright 2017</Copyright>
     <PackageTags>sundial profiler core</PackageTags>
     <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
