@@ -32,7 +32,7 @@ namespace Sundial.Core.Reports.Exporters
     /// <seealso cref="ExporterBaseClass"/>
     public class HTMLExporter : ExporterBaseClass
     {
-        private Dictionary<string, string> ScriptFiles = new Dictionary<string, string>()
+        private readonly Dictionary<string, string> ScriptFiles = new Dictionary<string, string>()
         {
             ["excanvas.min.js"] = "resource://Sundial.Core/Sundial.Core.Reports.Exporters.Resources.Scripts.excanvas.min.js",
             ["jquery.flot.axislabels.js"] = "resource://Sundial.Core/Sundial.Core.Reports.Exporters.Resources.Scripts.jquery.flot.axislabels.js",
@@ -41,7 +41,7 @@ namespace Sundial.Core.Reports.Exporters
             ["jquery-1.11.2.min.js"] = "resource://Sundial.Core/Sundial.Core.Reports.Exporters.Resources.Scripts.jquery-1.11.2.min.js"
         };
 
-        private Dictionary<string, string> StyleFiles = new Dictionary<string, string>()
+        private readonly Dictionary<string, string> StyleFiles = new Dictionary<string, string>()
         {
             ["Layout.css"] = "resource://Sundial.Core/Sundial.Core.Reports.Exporters.Resources.Styles.Layout.css"
         };

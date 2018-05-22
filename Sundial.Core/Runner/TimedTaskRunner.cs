@@ -94,7 +94,7 @@ namespace Sundial.Core.Runner
         /// Gets or sets the randomizer.
         /// </summary>
         /// <value>The randomizer.</value>
-        private Mirage.Random Randomizer { get; set; }
+        private Mirage.Random Randomizer { get; }
 
         /// <summary>
         /// Runs the tasks using the exporter specified.

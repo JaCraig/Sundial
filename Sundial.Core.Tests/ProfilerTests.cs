@@ -50,7 +50,7 @@ namespace Sundial.Core.Tests
             var Result = Profiler.StopProfiling(true);
             Assert.NotNull(Result);
             Assert.Equal(0, Result.Children.Count);
-            Assert.Equal(0, Result.Entries.Count);
+            Assert.Empty(Result.Entries);
             Assert.Equal("Start", Result.Function);
         }
     }

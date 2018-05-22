@@ -43,7 +43,7 @@ namespace Sundial.Core.Analysis.Analyzers
         /// <returns>The list of findings</returns>
         public IEnumerable<Finding> Analyze(IEnumerable<IResult> results)
         {
-            if (results == null || !results.Any())
+            if (results?.Any() != true)
                 return new Finding[0];
             List<Finding> ReturnValues = new List<Finding>();
             foreach (var TempResult in results)

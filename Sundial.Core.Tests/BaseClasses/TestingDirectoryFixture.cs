@@ -16,11 +16,14 @@ namespace Sundial.Core.Tests.BaseClasses
         public TestingDirectoryFixture()
         {
             if (Canister.Builder.Bootstrapper == null)
+            {
                 Canister.Builder.CreateContainer(new List<ServiceDescriptor>())
-                    .AddAssembly(typeof(TestingDirectoryFixture).GetTypeInfo().Assembly)
-                    .RegisterSundial()
-                    .RegisterFileCurator()
-                    .Build();
+                   .AddAssembly(typeof(TestingDirectoryFixture).GetTypeInfo().Assembly)
+                   .RegisterSundial()
+                   .RegisterFileCurator()
+                   .Build();
+            }
+
             new DirectoryInfo(@".\Testing").Create();
             ((object)null).Cache("Root_Profiler", "Item");
             ((object)null).Cache("Current_Profiler", "Item");

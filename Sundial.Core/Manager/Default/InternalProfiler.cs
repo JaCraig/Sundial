@@ -53,7 +53,7 @@ namespace Sundial.Core.Manager.Default
             : this(measurements)
         {
             Parent = Current;
-            InternalProfiler Child = Parent != null && Parent.InternalChildren.ContainsKey(functionName) ? Parent.InternalChildren[functionName] : null;
+            InternalProfiler Child = Parent?.InternalChildren.ContainsKey(functionName) == true ? Parent.InternalChildren[functionName] : null;
             if (Child == null)
             {
                 if (Parent != null)
@@ -127,12 +127,12 @@ namespace Sundial.Core.Manager.Default
         /// <summary>
         /// Function name
         /// </summary>
-        public string Function { get; private set; }
+        public string Function { get; }
 
         /// <summary>
         /// Children profiler items
         /// </summary>
-        public IDictionary<string, InternalProfiler> InternalChildren { get; private set; }
+        public IDictionary<string, InternalProfiler> InternalChildren { get; }
 
         /// <summary>
         /// Level of the profiler
@@ -148,18 +148,6 @@ namespace Sundial.Core.Manager.Default
         /// Determines if it is running
         /// </summary>
         protected bool Running { get; set; }
-
-        /// <summary>
-        /// Gets or sets the counter stop watch.
-        /// </summary>
-        /// <value>The counter stop watch.</value>
-        private static StopWatch CounterStopWatch { get; set; }
-
-        /// <summary>
-        /// Gets or sets the last counter time.
-        /// </summary>
-        /// <value>The last counter time.</value>
-        private static double LastCounterTime { get; set; }
 
         /// <summary>
         /// Gets the measurements.
@@ -321,7 +309,7 @@ namespace Sundial.Core.Manager.Default
         public override string ToString()
         {
             var Builder = new StringBuilder();
-            Level.Times(x => { Builder.Append("\t"); });
+            Level.Times(x => Builder.Append("\t"));
             Builder.AppendLineFormat("{0} ({1} ms)", Function, Entries["Time"].Sum(x => x.Value));
             foreach (string Key in Children.Keys)
             {

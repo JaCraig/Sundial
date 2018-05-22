@@ -69,7 +69,7 @@ namespace Sundial.Core.Attributes
         public override bool Equals(object obj)
         {
             var TempObj = obj as SeriesAttribute;
-            return !ReferenceEquals(TempObj, null) && string.Equals(TempObj.Name, Name, StringComparison.Ordinal);
+            return !(TempObj is null) && string.Equals(TempObj.Name, Name, StringComparison.Ordinal);
         }
 
         /// <summary>

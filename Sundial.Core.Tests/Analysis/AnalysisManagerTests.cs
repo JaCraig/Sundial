@@ -7,7 +7,6 @@ using Sundial.Core.Manager.Interfaces;
 using Sundial.Core.Tests.BaseClasses;
 using Sundial.Core.Tests.MockClasses;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace Sundial.Core.Tests.Analysis
@@ -25,7 +24,7 @@ namespace Sundial.Core.Tests.Analysis
         public void Creation()
         {
             var TestObject = new AnalysisManager(new IAnalyzer[] { new AverageSpeedAnalyzer() });
-            Assert.Equal(1, TestObject.Analyzers.Count());
+            Assert.Single(TestObject.Analyzers);
         }
     }
 }

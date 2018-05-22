@@ -46,6 +46,11 @@ namespace Sundial.Core.Manager.Default.Measurements
         }
 
         /// <summary>
+        /// The lock object
+        /// </summary>
+        private static readonly object LockObject = new object();
+
+        /// <summary>
         /// The last counter time
         /// </summary>
         private static double LastCounterTime;
@@ -54,11 +59,6 @@ namespace Sundial.Core.Manager.Default.Measurements
         /// The last value
         /// </summary>
         private static decimal LastValue;
-
-        /// <summary>
-        /// The lock object
-        /// </summary>
-        private static object LockObject = new object();
 
         /// <summary>
         /// Gets or sets the counter.

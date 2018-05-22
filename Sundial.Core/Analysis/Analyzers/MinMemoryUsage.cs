@@ -40,7 +40,7 @@ namespace Sundial.Core.Analysis.Analyzers
         /// <returns>The list of findings</returns>
         public IEnumerable<Finding> Analyze(IEnumerable<IResult> results)
         {
-            if (results == null || !results.Any())
+            if (results?.Any() != true)
                 return new Finding[0];
             var MemoryUsageMin = results.OrderBy(x => x.Percentile("Memory", 0.5m).Value).First();
             return new Finding[] { new Finding($"On average \"{MemoryUsageMin.Name}\" used the least amount of memory throughout the test's lifecycle.") };
