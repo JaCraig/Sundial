@@ -174,11 +174,11 @@ namespace Sundial.Core.Manager.Default
         /// <returns>True if they are equal, false otherwise</returns>
         public static bool operator ==(InternalProfiler First, InternalProfiler Second)
         {
-            if ((object)First == null && (object)Second == null)
+            if (First is null && Second is null)
                 return true;
-            if ((object)First == null)
+            if (First is null)
                 return false;
-            if ((object)Second == null)
+            if (Second is null)
                 return false;
             return First.Function == Second.Function;
         }
@@ -309,7 +309,7 @@ namespace Sundial.Core.Manager.Default
         public override string ToString()
         {
             var Builder = new StringBuilder();
-            Level.Times(x => Builder.Append("\t"));
+            Level.Times(_ => Builder.Append("\t"));
             Builder.AppendLineFormat("{0} ({1} ms)", Function, Entries["Time"].Sum(x => x.Value));
             foreach (string Key in Children.Keys)
             {
