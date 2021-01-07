@@ -1,10 +1,7 @@
 ﻿using BigBook.ExtensionMethods;
 using FileCurator;
-using FileCurator.Registration;
 using Microsoft.Extensions.DependencyInjection;
-using Sundial.Core.Registration;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Xunit;
 
@@ -17,17 +14,18 @@ namespace Sundial.Core.Tests.BaseClasses
         {
             if (Canister.Builder.Bootstrapper == null)
             {
-                Canister.Builder.CreateContainer(new List<ServiceDescriptor>())
-                   .AddAssembly(typeof(TestingDirectoryFixture).GetTypeInfo().Assembly)
-                   .RegisterSundial()
-                   .RegisterFileCurator()
-                   .Build();
+                new ServiceCollection().AddLogging()
+                    .AddCanisterModules(x => x.AddAssembly(typeof(TestingDirectoryFixture).GetTypeInfo().Assembly)
+                                              .RegisterSundial()
+                                              .RegisterFileCurator());
             }
 
             new DirectoryInfo(@".\Testing").Create();
             ((object)null).Cache("Root_Profiler", "Item");
             ((object)null).Cache("Current_Profiler", "Item");
         }
+
+        protected static BigBook.Caching.Manager CacheManager => Canister.Builder.Bootstrapper.Resolve<BigBook.Caching.Manager>();
 
         public void Dispose()
         {

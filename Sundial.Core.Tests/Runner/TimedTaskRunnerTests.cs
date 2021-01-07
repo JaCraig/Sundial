@@ -1,4 +1,5 @@
-﻿using Sundial.Core.Analysis.Interfaces;
+﻿using Microsoft.Extensions.Logging;
+using Sundial.Core.Analysis.Interfaces;
 using Sundial.Core.Interfaces;
 using Sundial.Core.Manager.Interfaces;
 using Sundial.Core.Reports.Interfaces;
@@ -28,7 +29,8 @@ namespace Sundial.Core.Tests.Runner
             var TestObject = new TimedTaskRunner(new List<ITimedTask>(),
                 new Core.Analysis.AnalysisManager(new List<IAnalyzer>()),
                 new Core.Manager.ProfilerManager(new List<IProfiler>()),
-                new Core.Reports.ReportManager(new List<IExporter>()));
+                new Core.Reports.ReportManager(new List<IExporter>()),
+                Canister.Builder.Bootstrapper.Resolve<ILogger<TimedTaskRunner>>());
             Assert.NotNull(TestObject.AnalysisManager);
             Assert.NotNull(TestObject.ProfilerManager);
             Assert.NotNull(TestObject.ReportManager);

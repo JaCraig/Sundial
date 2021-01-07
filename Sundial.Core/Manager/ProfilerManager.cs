@@ -34,7 +34,7 @@ namespace Sundial.Core.Manager
         /// <param name="profilers">The profilers.</param>
         public ProfilerManager(IEnumerable<IProfiler> profilers)
         {
-            profilers = profilers ?? new List<IProfiler>();
+            profilers ??= new List<IProfiler>();
             Profiler = profilers.FirstOrDefault(x => !x.GetType().Namespace.StartsWith("SUNDIAL", StringComparison.OrdinalIgnoreCase))
                      ?? profilers.FirstOrDefault(x => x.GetType().Namespace.StartsWith("SUNDIAL", StringComparison.OrdinalIgnoreCase));
         }

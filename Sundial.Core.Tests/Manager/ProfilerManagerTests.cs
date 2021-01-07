@@ -12,14 +12,14 @@ namespace Sundial.Core.Tests.Manager
         [Fact]
         public void Creation()
         {
-            var TestObject = new ProfilerManager(new IProfiler[] { new InternalProfiler(new IMeasurement[] { new TimeMeasurement() }) });
+            var TestObject = new ProfilerManager(new IProfiler[] { new InternalProfiler(new IMeasurement[] { new TimeMeasurement() }, CacheManager) });
             Assert.NotNull(TestObject);
         }
 
         [Fact]
         public void Profile()
         {
-            var TestObject = new ProfilerManager(new IProfiler[] { new InternalProfiler(new IMeasurement[] { new TimeMeasurement(), new MemoryMeasurement() }) });
+            var TestObject = new ProfilerManager(new IProfiler[] { new InternalProfiler(new IMeasurement[] { new TimeMeasurement(), new MemoryMeasurement() }, CacheManager) });
             using (var Profiler = TestObject.StartProfiling())
             {
                 using (var TestProfiler = TestObject.Profile("TestProfiler"))
@@ -36,7 +36,7 @@ namespace Sundial.Core.Tests.Manager
         [Fact]
         public void StartProfiling()
         {
-            var TestObject = new ProfilerManager(new IProfiler[] { new InternalProfiler(new IMeasurement[] { new TimeMeasurement(), new MemoryMeasurement() }) });
+            var TestObject = new ProfilerManager(new IProfiler[] { new InternalProfiler(new IMeasurement[] { new TimeMeasurement(), new MemoryMeasurement() }, CacheManager) });
             using (var Profiler = TestObject.StartProfiling())
             {
                 Assert.NotNull(Profiler);
@@ -47,7 +47,7 @@ namespace Sundial.Core.Tests.Manager
         [Fact]
         public void StopProfiling()
         {
-            var TestObject = new ProfilerManager(new IProfiler[] { new InternalProfiler(new IMeasurement[] { new TimeMeasurement(), new MemoryMeasurement() }) });
+            var TestObject = new ProfilerManager(new IProfiler[] { new InternalProfiler(new IMeasurement[] { new TimeMeasurement(), new MemoryMeasurement() }, CacheManager) });
             using (var Profiler = TestObject.StartProfiling())
             {
             }

@@ -17,7 +17,7 @@ namespace Sundial.Core.Tests.Analysis
         public void Analyze()
         {
             var TestObject = new AnalysisManager(new IAnalyzer[] { new AverageSpeedAnalyzer() });
-            Assert.NotEmpty(TestObject.Analyze(new IResult[] { new Result(new TimedTaskMock(), new InternalProfiler(new List<IMeasurement>())) }));
+            Assert.NotEmpty(TestObject.Analyze(new IResult[] { new Result(new TimedTaskMock(), new InternalProfiler(new List<IMeasurement>(), CacheManager)) }));
         }
 
         [Fact]

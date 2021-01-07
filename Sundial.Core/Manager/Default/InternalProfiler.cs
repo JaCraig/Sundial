@@ -35,13 +35,15 @@ namespace Sundial.Core.Manager.Default
         /// Constructor
         /// </summary>
         /// <param name="measurements">The measurements.</param>
-        public InternalProfiler(IEnumerable<IMeasurement> measurements)
+        /// <param name="cacheManager">The cache manager.</param>
+        public InternalProfiler(IEnumerable<IMeasurement> measurements, BigBook.Caching.Manager cacheManager)
         {
-            measurements = measurements ?? new IMeasurement[0];
+            measurements ??= Array.Empty<IMeasurement>();
             Measurements = measurements.ToArray();
             Entries = new ListMapping<string, IResultEntry>();
             Function = "";
             InternalChildren = new Dictionary<string, InternalProfiler>();
+            CacheManager = cacheManager;
         }
 
         /// <summary>
@@ -49,8 +51,9 @@ namespace Sundial.Core.Manager.Default
         /// </summary>
         /// <param name="functionName">Function/identifier</param>
         /// <param name="measurements">The measurements.</param>
-        public InternalProfiler(string functionName, IEnumerable<IMeasurement> measurements)
-            : this(measurements)
+        /// <param name="cacheManager">The cache manager.</param>
+        public InternalProfiler(string functionName, IEnumerable<IMeasurement> measurements, BigBook.Caching.Manager cacheManager)
+            : this(measurements, cacheManager)
         {
             Parent = Current;
             InternalProfiler Child = Parent?.InternalChildren.ContainsKey(functionName) == true ? Parent.InternalChildren[functionName] : null;
@@ -69,6 +72,14 @@ namespace Sundial.Core.Manager.Default
                 Current = Child;
             }
             Start();
+        }
+
+        /// <summary>
+        /// Destructor
+        /// </summary>
+        ~InternalProfiler()
+        {
+            Dispose(false);
         }
 
         /// <summary>
@@ -102,7 +113,10 @@ namespace Sundial.Core.Manager.Default
                 var ReturnValue = "Root_Profiler".GetFromCache<InternalProfiler>(cacheName: "Item");
                 if (ReturnValue == null)
                 {
-                    ReturnValue = new InternalProfiler("Start", Canister.Builder.Bootstrapper.ResolveAll<IMeasurement>());
+                    ReturnValue = new InternalProfiler(
+                        "Start",
+                        Canister.Builder.Bootstrapper?.ResolveAll<IMeasurement>(),
+                        Canister.Builder.Bootstrapper?.Resolve<BigBook.Caching.Manager>());
                     Root = ReturnValue;
                 }
                 return ReturnValue;
@@ -148,6 +162,12 @@ namespace Sundial.Core.Manager.Default
         /// Determines if it is running
         /// </summary>
         protected bool Running { get; set; }
+
+        /// <summary>
+        /// Gets the cache manager.
+        /// </summary>
+        /// <value>The cache manager.</value>
+        private BigBook.Caching.Manager CacheManager { get; }
 
         /// <summary>
         /// Gets the measurements.
@@ -255,7 +275,10 @@ namespace Sundial.Core.Manager.Default
         /// <returns>An IDisposable that is used to stop profiling</returns>
         public IDisposable Profile(string functionName)
         {
-            return new InternalProfiler(functionName, Canister.Builder.Bootstrapper.ResolveAll<IMeasurement>());
+            return new InternalProfiler(
+                functionName,
+                Canister.Builder.Bootstrapper.ResolveAll<IMeasurement>(),
+                Canister.Builder.Bootstrapper?.Resolve<BigBook.Caching.Manager>());
         }
 
         /// <summary>
@@ -328,14 +351,6 @@ namespace Sundial.Core.Manager.Default
         {
             if (Disposing)
                 Stop();
-        }
-
-        /// <summary>
-        /// Destructor
-        /// </summary>
-        ~InternalProfiler()
-        {
-            Dispose(false);
         }
     }
 }

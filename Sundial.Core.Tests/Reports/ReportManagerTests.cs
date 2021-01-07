@@ -28,7 +28,7 @@ namespace Sundial.Core.Tests.Reports
             var TestObject = new ReportManager(new IExporter[] { new ConsoleExporter() });
             Assert.Equal("", TestObject.Export(new string[] { "Console" },
                                                 new SeriesAttribute("", 1000),
-                                                new IResult[] { new Result(new TimedTaskMock(), new InternalProfiler(new List<IMeasurement>())) },
+                                                new IResult[] { new Result(new TimedTaskMock(), new InternalProfiler(new List<IMeasurement>(), CacheManager)) },
                                                 new List<Finding>())[0]);
         }
     }
