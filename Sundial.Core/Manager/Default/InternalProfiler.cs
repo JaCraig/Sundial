@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 using BigBook;
-using BigBook.ExtensionMethods;
+using DragonHoard.Core;
 using Sundial.Core.Manager.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace Sundial.Core.Manager.Default
         /// </summary>
         /// <param name="measurements">The measurements.</param>
         /// <param name="cacheManager">The cache manager.</param>
-        public InternalProfiler(IEnumerable<IMeasurement> measurements, BigBook.Caching.Manager cacheManager)
+        public InternalProfiler(IEnumerable<IMeasurement> measurements, Cache cacheManager)
         {
             measurements ??= Array.Empty<IMeasurement>();
             Measurements = measurements.ToArray();
@@ -52,7 +52,7 @@ namespace Sundial.Core.Manager.Default
         /// <param name="functionName">Function/identifier</param>
         /// <param name="measurements">The measurements.</param>
         /// <param name="cacheManager">The cache manager.</param>
-        public InternalProfiler(string functionName, IEnumerable<IMeasurement> measurements, BigBook.Caching.Manager cacheManager)
+        public InternalProfiler(string functionName, IEnumerable<IMeasurement> measurements, Cache cacheManager)
             : this(measurements, cacheManager)
         {
             Parent = Current;
@@ -89,17 +89,18 @@ namespace Sundial.Core.Manager.Default
         {
             get
             {
-                var ReturnValue = "Current_Profiler".GetFromCache<InternalProfiler>(cacheName: "Item");
+                InternalProfiler ReturnValue = null;
+                CacheManager.GetOrAddCache("Item")?.TryGetValue("Current_Profiler", out ReturnValue);
                 if (ReturnValue == null)
                 {
-                    ReturnValue = "Root_Profiler".GetFromCache<InternalProfiler>(cacheName: "Item");
+                    CacheManager.GetOrAddCache("Item")?.TryGetValue("Root_Profiler", out ReturnValue);
                     Current = ReturnValue;
                 }
                 return ReturnValue;
             }
             protected set
             {
-                value.Cache("Current_Profiler", "Item");
+                CacheManager.GetOrAddCache("Item")?.Set("Current_Profiler", value);
             }
         }
 
@@ -110,20 +111,21 @@ namespace Sundial.Core.Manager.Default
         {
             get
             {
-                var ReturnValue = "Root_Profiler".GetFromCache<InternalProfiler>(cacheName: "Item");
+                InternalProfiler ReturnValue = null;
+                CacheManager.GetOrAddCache("Item")?.TryGetValue("Root_Profiler", out ReturnValue);
                 if (ReturnValue == null)
                 {
                     ReturnValue = new InternalProfiler(
                         "Start",
                         Canister.Builder.Bootstrapper?.ResolveAll<IMeasurement>(),
-                        Canister.Builder.Bootstrapper?.Resolve<BigBook.Caching.Manager>());
+                        CacheManager);
                     Root = ReturnValue;
                 }
                 return ReturnValue;
             }
             protected set
             {
-                value.Cache("Root_Profiler", "Item");
+                CacheManager.GetOrAddCache("Item")?.Set("Root_Profiler", value);
             }
         }
 
@@ -167,7 +169,7 @@ namespace Sundial.Core.Manager.Default
         /// Gets the cache manager.
         /// </summary>
         /// <value>The cache manager.</value>
-        private BigBook.Caching.Manager CacheManager { get; }
+        private static Cache CacheManager { get; set; }
 
         /// <summary>
         /// Gets the measurements.
@@ -278,7 +280,7 @@ namespace Sundial.Core.Manager.Default
             return new InternalProfiler(
                 functionName,
                 Canister.Builder.Bootstrapper.ResolveAll<IMeasurement>(),
-                Canister.Builder.Bootstrapper?.Resolve<BigBook.Caching.Manager>());
+                CacheManager);
         }
 
         /// <summary>

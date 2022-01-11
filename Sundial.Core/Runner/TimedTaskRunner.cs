@@ -15,12 +15,13 @@ limitations under the License.
 */
 
 using BigBook;
-using BigBook.ExtensionMethods;
+using DragonHoard.Core;
 using Microsoft.Extensions.Logging;
 using Sundial.Core.Analysis;
 using Sundial.Core.Attributes;
 using Sundial.Core.Interfaces;
 using Sundial.Core.Manager;
+using Sundial.Core.Manager.Default;
 using Sundial.Core.Reports;
 using System;
 using System.Collections.Generic;
@@ -91,6 +92,12 @@ namespace Sundial.Core.Runner
         public ListMapping<ISeries, ITimedTask> Tasks { get; }
 
         /// <summary>
+        /// Gets the cache manager.
+        /// </summary>
+        /// <value>The cache manager.</value>
+        protected static Cache CacheManager => Canister.Builder.Bootstrapper.Resolve<Cache>();
+
+        /// <summary>
         /// Gets or sets the randomizer.
         /// </summary>
         /// <value>The randomizer.</value>
@@ -112,8 +119,8 @@ namespace Sundial.Core.Runner
                 foreach (var Task in Randomizer.Shuffle(Tasks[Series]))
                 {
                     Logger.LogInformation("Starting task {Info:l}.", Task.Name);
-                    ((object)null).Cache("Root_Profiler", "Item");
-                    ((object)null).Cache("Current_Profiler", "Item");
+                    CacheManager.GetOrAddCache("Item")?.Set<InternalProfiler>("Root_Profiler", null);
+                    CacheManager.GetOrAddCache("Item")?.Set<InternalProfiler>("Current_Profiler", null);
                     using (var Profiler = ProfilerManager.StartProfiling())
                     {
                         for (int x = 0; x < Series.Iterations; ++x)
