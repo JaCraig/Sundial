@@ -9,11 +9,11 @@ namespace TestApp
     {
         private static void Main(string[] args)
         {
-            new ServiceCollection().AddLogging().AddCanisterModules(x => x.AddAssembly(typeof(Program).GetTypeInfo().Assembly)
+            var Services = new ServiceCollection().AddLogging().AddCanisterModules(x => x.AddAssembly(typeof(Program).GetTypeInfo().Assembly)
                     .RegisterSundial()
                     .RegisterFileCurator()
-                    .RegisterSerialBox());
-            var Runner = Canister.Builder.Bootstrapper.Resolve<TimedTaskRunner>();
+                    .RegisterSerialBox()).BuildServiceProvider();
+            var Runner = Services.GetService<TimedTaskRunner>();
             Runner.Run();
             Console.ReadKey();
         }

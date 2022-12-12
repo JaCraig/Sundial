@@ -16,6 +16,7 @@ limitations under the License.
 
 using BigBook;
 using DragonHoard.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sundial.Core.Analysis;
 using Sundial.Core.Attributes;
@@ -95,7 +96,7 @@ namespace Sundial.Core.Runner
         /// Gets the cache manager.
         /// </summary>
         /// <value>The cache manager.</value>
-        protected static Cache CacheManager => Canister.Builder.Bootstrapper.Resolve<Cache>();
+        protected static Cache CacheManager => Services.ServiceProvider.GetService<Cache>();
 
         /// <summary>
         /// Gets or sets the randomizer.

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Sundial.Core.Analysis.Interfaces;
 using Sundial.Core.Interfaces;
 using Sundial.Core.Manager.Interfaces;
@@ -15,7 +16,7 @@ namespace Sundial.Core.Tests.Runner
         [Fact]
         public void CanisterCreation()
         {
-            var TestObject = Canister.Builder.Bootstrapper.Resolve<TimedTaskRunner>();
+            var TestObject = GetServiceProvider().GetService<TimedTaskRunner>();
             Assert.NotNull(TestObject.AnalysisManager);
             Assert.NotNull(TestObject.ProfilerManager);
             Assert.NotNull(TestObject.ReportManager);
@@ -30,7 +31,7 @@ namespace Sundial.Core.Tests.Runner
                 new Core.Analysis.AnalysisManager(new List<IAnalyzer>()),
                 new Core.Manager.ProfilerManager(new List<IProfiler>()),
                 new Core.Reports.ReportManager(new List<IExporter>()),
-                Canister.Builder.Bootstrapper.Resolve<ILogger<TimedTaskRunner>>());
+                GetServiceProvider().GetService<ILogger<TimedTaskRunner>>());
             Assert.NotNull(TestObject.AnalysisManager);
             Assert.NotNull(TestObject.ProfilerManager);
             Assert.NotNull(TestObject.ReportManager);
@@ -41,7 +42,7 @@ namespace Sundial.Core.Tests.Runner
         [Fact]
         public void Run()
         {
-            var TestObject = Canister.Builder.Bootstrapper.Resolve<TimedTaskRunner>();
+            var TestObject = GetServiceProvider().GetService<TimedTaskRunner>();
             var Result = TestObject.Run();
             Assert.NotEmpty(Result);
         }

@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 using BigBook.Patterns.BaseClasses;
+using Microsoft.Extensions.DependencyInjection;
 using Sundial.Core.Manager;
 using Sundial.Core.Manager.Interfaces;
 using System;
@@ -33,7 +34,7 @@ namespace Sundial.Core
         /// <param name="functionName">Name of the function.</param>
         public Profiler(string functionName)
         {
-            ProfilerObject = Canister.Builder.Bootstrapper.Resolve<ProfilerManager>().Profile(functionName);
+            ProfilerObject = Services.ServiceProvider.GetService<ProfilerManager>().Profile(functionName);
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace Sundial.Core
         /// <returns>The profiler object</returns>
         public static IDisposable StartProfiling()
         {
-            return Canister.Builder.Bootstrapper.Resolve<ProfilerManager>().StartProfiling();
+            return Services.ServiceProvider.GetService<ProfilerManager>().StartProfiling();
         }
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace Sundial.Core
         /// <returns>Result of the profiling</returns>
         public static IProfilerResult StopProfiling(bool discardResults)
         {
-            return Canister.Builder.Bootstrapper.Resolve<ProfilerManager>().StopProfiling(discardResults);
+            return Services.ServiceProvider.GetService<ProfilerManager>().StopProfiling(discardResults);
         }
 
         /// <summary>

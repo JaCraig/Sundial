@@ -16,6 +16,7 @@ limitations under the License.
 
 using BigBook;
 using DragonHoard.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Sundial.Core.Manager.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -117,7 +118,7 @@ namespace Sundial.Core.Manager.Default
                 {
                     ReturnValue = new InternalProfiler(
                         "Start",
-                        Canister.Builder.Bootstrapper?.ResolveAll<IMeasurement>(),
+                        Services.ServiceProvider.GetServices<IMeasurement>(),
                         CacheManager);
                     Root = ReturnValue;
                 }
@@ -279,7 +280,7 @@ namespace Sundial.Core.Manager.Default
         {
             return new InternalProfiler(
                 functionName,
-                Canister.Builder.Bootstrapper.ResolveAll<IMeasurement>(),
+                Services.ServiceProvider.GetServices<IMeasurement>(),
                 CacheManager);
         }
 

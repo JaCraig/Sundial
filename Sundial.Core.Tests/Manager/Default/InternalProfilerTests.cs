@@ -1,4 +1,5 @@
-﻿using Sundial.Core.Manager.Default;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Sundial.Core.Manager.Default;
 using Sundial.Core.Manager.Interfaces;
 using Sundial.Core.Tests.BaseClasses;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace Sundial.Core.Tests.Manager.Default
         [Fact]
         public void BasicTest()
         {
-            var TestObject = new InternalProfiler("Func1", Canister.Builder.Bootstrapper.ResolveAll<IMeasurement>(), CacheManager);
+            var TestObject = new InternalProfiler("Func1", GetServiceProvider().GetServices<IMeasurement>(), CacheManager);
             Thread.Sleep(600);
-            var A = new InternalProfiler("A", Canister.Builder.Bootstrapper.ResolveAll<IMeasurement>(), CacheManager);
+            var A = new InternalProfiler("A", GetServiceProvider().GetServices<IMeasurement>(), CacheManager);
             Thread.Sleep(600);
             A.Stop();
             TestObject.Stop();
@@ -27,7 +28,7 @@ namespace Sundial.Core.Tests.Manager.Default
         [Fact]
         public void Percentile()
         {
-            var TestObject = new InternalProfiler("Func1", Canister.Builder.Bootstrapper.ResolveAll<IMeasurement>(), CacheManager);
+            var TestObject = new InternalProfiler("Func1", GetServiceProvider().GetServices<IMeasurement>(), CacheManager);
             TestObject.Entries.Add("A", new Entry(1));
             TestObject.Entries.Add("A", new Entry(2));
             TestObject.Entries.Add("A", new Entry(3));

@@ -43,20 +43,20 @@ namespace Sundial.Core.Module
         /// Loads the module
         /// </summary>
         /// <param name="bootstrapper">Bootstrapper to register with</param>
-        public void Load(IBootstrapper bootstrapper)
+        public void Load(IServiceCollection bootstrapper)
         {
             if (bootstrapper == null)
                 return;
-            bootstrapper.RegisterAll<IProfiler>();
-            bootstrapper.RegisterAll<IMeasurement>();
-            bootstrapper.Register<StopWatch>();
-            bootstrapper.RegisterAll<IAnalyzer>();
-            bootstrapper.RegisterAll<IExporter>();
-            bootstrapper.RegisterAll<ITimedTask>();
-            bootstrapper.Register<AnalysisManager>(ServiceLifetime.Singleton);
-            bootstrapper.Register<ProfilerManager>(ServiceLifetime.Singleton);
-            bootstrapper.Register<ReportManager>(ServiceLifetime.Singleton);
-            bootstrapper.Register<TimedTaskRunner>(ServiceLifetime.Singleton);
+            bootstrapper.AddAllTransient<IProfiler>();
+            bootstrapper.AddAllTransient<IMeasurement>();
+            bootstrapper.AddTransient<StopWatch>();
+            bootstrapper.AddAllTransient<IAnalyzer>();
+            bootstrapper.AddAllTransient<IExporter>();
+            bootstrapper.AddAllTransient<ITimedTask>();
+            bootstrapper.AddSingleton<AnalysisManager>();
+            bootstrapper.AddSingleton<ProfilerManager>();
+            bootstrapper.AddSingleton<ReportManager>();
+            bootstrapper.AddSingleton<TimedTaskRunner>();
         }
     }
 }

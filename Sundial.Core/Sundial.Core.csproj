@@ -7,7 +7,7 @@
     <!-- for Team City -->
     <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
     <!-- if not set -->
-	  <TargetFrameworks>netstandard2.1;net5.0;net6.0</TargetFrameworks>
+	  <TargetFrameworks>net6.0</TargetFrameworks>
     <PackageId>sundial.core</PackageId>
     <AssemblyName>Sundial.Core</AssemblyName>
     <AssemblyTitle>Sundial Core Library</AssemblyTitle>
@@ -23,7 +23,7 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>2.0.$(BuildNumber)</Version>
+    <Version>3.0.$(BuildNumber)</Version>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -50,10 +50,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BigBook" Version="4.0.18" />
-    <PackageReference Include="Canister.IoC" Version="4.0.11" />
-    <PackageReference Include="DragonHoard.InMemory" Version="1.0.17" />
-    <PackageReference Include="FileCurator" Version="3.1.44" />
-    <PackageReference Include="Mirage" Version="3.0.19" />
+    <PackageReference Include="BigBook" Version="5.0.0" />
+    <PackageReference Include="Canister.IoC" Version="5.0.1" />
+    <PackageReference Include="DragonHoard.InMemory" Version="2.0.0" />
+    <PackageReference Include="FileCurator" Version="4.0.0" />
+    <PackageReference Include="Mirage" Version="4.0.0" />
   </ItemGroup>
 </Project>
