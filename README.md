@@ -1,6 +1,5 @@
+# This project is being archived. It was originally an old project prior to BenchmarkDotNet existing. At this point I recommend using that.
 # Sundial
-
-[![Build status](https://ci.appveyor.com/api/projects/status/hleskrweq8m91y5q?svg=true)](https://ci.appveyor.com/project/JaCraig/sundial)
 
 Sundial is a simple library that can be used to profile code and gives a nice html output of the results.
 
